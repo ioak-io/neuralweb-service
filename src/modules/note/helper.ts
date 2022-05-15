@@ -46,6 +46,9 @@ const _populateTags = async (space: string, note: any) => {
 const _populateLinks = async (space: string, note: any) => {
   const noteRef = note.reference;
   const content = note.content;
+
+  await NotelinkHelper.deleteBySourceNoteRef(space, noteRef);
+
   let linkedNoteRefList = content.match(/\[\[(\w+)\]\]/g);
 
   if (!linkedNoteRefList) {
@@ -55,7 +58,6 @@ const _populateLinks = async (space: string, note: any) => {
     item.replace("[[", "").replace("]]", "")
   );
 
-  await NotelinkHelper.deleteBySourceNoteRef(space, noteRef);
   if (linkedNoteRefList && linkedNoteRefList.length > 0) {
     await NotelinkHelper.addLinksForSourceNoteRef(
       space,
@@ -136,4 +138,24 @@ export const deleteNote = async (space: string, _id: string) => {
 
   await model.remove({ _id });
   return { note: [_id] };
+};
+
+export const searchNoteByText = async (space: string, text: string) => {
+  const model = getCollection(space, noteCollection, noteSchema);
+
+  const res = await model.find({
+    $text: { $search: `\"${text}\"`, $caseSensitive: false },
+  });
+  return res;
+};
+
+export const searchNote = async (space: string, text: string) => {
+  const model = getCollection(space, noteCollection, noteSchema);
+
+  console.log(text);
+
+  const res = await model.find({
+    $text: { $search: `\"${text}\"`, $caseSensitive: false },
+  });
+  return res;
 };
