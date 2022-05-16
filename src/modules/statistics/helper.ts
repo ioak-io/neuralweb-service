@@ -6,7 +6,6 @@ import { expenseCollection, expenseSchema } from "../expense/model";
 import { budgetCollection, budgetSchema } from "../budget/model";
 import { categoryCollection, categorySchema } from "../category/model";
 import { incomeCollection, incomeSchema } from "../income/model";
-import * as FilterExpenseHelper from "../filter/expense/helper";
 import * as ExpenseHelper from "../expense/helper";
 import * as AccountHelper from "../account/helper";
 import * as AccountScopeHelper from "../account/scope/helper";
@@ -213,54 +212,13 @@ const _getDateRange = async (
       fromDate,
       toDate,
     };
-  } else {
-    const filterList = await FilterExpenseHelper.getFilterExpenseById(
-      space,
-      searchCriteria.option
-    );
-    let filter = null;
-    if (filterList.length > 0) {
-      filter = filterList[0];
-    }
-
-    let filterCondition = [];
-
-    if (filter) {
-      filterCondition = ExpenseHelper.constructSearchCondition(
-        filter,
-        dateInsensitive
-      );
-    }
-
-    const model = getCollection(space, expenseCollection, expenseSchema);
-
-    let fromDate = new Date();
-    let toDate = new Date();
-
-    if (!dateInsensitive) {
-      const fromDateRes = await model
-        .find({ $and: filterCondition })
-        .sort({ billDate: 1 })
-        .limit(1);
-      if (fromDateRes.length > 0) {
-        fromDate = fromDateRes[0].billDate;
-      }
-      const toDateRes = await model
-        .find({ $and: filterCondition })
-        .sort({ billDate: -1 })
-        .limit(1);
-      if (toDateRes.length > 0) {
-        toDate = toDateRes[0].billDate;
-      }
-    }
-
-    return {
-      filter,
-      filterCondition,
-      fromDate,
-      toDate,
-    };
   }
+  return {
+    filter: null,
+    filterCondition: null,
+    fromDate: new Date(),
+    toDate: new Date(),
+  };
 };
 
 export const getWeeklyTrend = async (space: string, searchCriteria: any) => {
@@ -345,6 +303,10 @@ export const getYearlyTrend = async (space: string, searchCriteria: any) => {
     searchCriteria,
     true
   );
+
+  if (!filterCondition) {
+    return {};
+  }
 
   const model = getCollection(space, expenseCollection, expenseSchema);
 

@@ -25,7 +25,7 @@ require("./modules/schedule/receipt/route")(router);
 require("./modules/schedule/receipt/log/route")(router);
 require("./modules/import/route")(router);
 require("./modules/import/log/route")(router);
-require("./modules/filter/expense/route")(router);
+require("./modules/filter-group/route")(router);
 require("./modules/statistics/route")(router);
 require("./modules/account/route")(router);
 require("./modules/account/scope/route")(router);

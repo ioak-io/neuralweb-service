@@ -4,7 +4,6 @@ import { companyCollection, companySchema } from "./model";
 import { format } from "date-fns";
 import { getGlobalCollection, getCollection } from "../../lib/dbutils";
 import { create_sequence, nextval } from "../sequence/service";
-import * as filterExpenseHelper from "../filter/expense/helper";
 import {
   lastMonth,
   lastYear,
@@ -51,11 +50,4 @@ export const getCompanyByIdList = async (idList: string[]) => {
   const model = getGlobalCollection(companyCollection, companySchema);
 
   return await model.find({ _id: { $in: idList } });
-};
-
-const createReservedFilters = async (space: string, userId: string) => {
-  await filterExpenseHelper.updateFilterExpense(space, lastYear, userId);
-  await filterExpenseHelper.updateFilterExpense(space, thisYear, userId);
-  await filterExpenseHelper.updateFilterExpense(space, lastMonth, userId);
-  await filterExpenseHelper.updateFilterExpense(space, thisMonth, userId);
 };
