@@ -6,6 +6,7 @@ import { nextval } from "../sequence/service";
 import * as NoteTagHelper from "./tag/helper";
 import * as NotelinkHelper from "../notelink/helper";
 import * as FilterGroupHelper from "../filter-group/helper";
+import { isEmptyOrSpaces } from "../../lib/Utils";
 
 export const updateNote = async (space: string, data: any, userId?: string) => {
   const model = getCollection(space, noteCollection, noteSchema);
@@ -93,12 +94,17 @@ const _enrichWithGroupColor = async (space: string, data: any[]) => {
   const filterGroupList = await FilterGroupHelper.getFilterGroup(space);
   return data.map((item: any) => {
     let out = { ...item._doc };
-    filterGroupList.forEach((filter: any) => {
-      const { file, path, tag, general } = getFilterKeys(filter.criteria);
-      if (_processFilterPerRecord(item, file, tag, path, general)) {
-        out.color = filter.color;
-      }
-    });
+    filterGroupList
+      .filter(
+        (item: any) =>
+          !isEmptyOrSpaces(item.criteria) && !isEmptyOrSpaces(item.color)
+      )
+      .forEach((filter: any) => {
+        const { file, path, tag, general } = getFilterKeys(filter.criteria);
+        if (_processFilterPerRecord(item, file, tag, path, general)) {
+          out.color = filter.color;
+        }
+      });
     return out;
   });
 };

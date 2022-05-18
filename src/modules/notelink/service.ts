@@ -9,7 +9,11 @@ const selfRealm = 100;
 
 export const getNotelink = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const notelinkList: any = await Helper.getNotelink(req.params.space);
+  const notelinkList: any = await Helper.getNotelink(
+    req.params.space,
+    req.query.noteref,
+    req.query.depth
+  );
   res.status(200);
   res.send(notelinkList);
   res.end();

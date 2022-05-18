@@ -1,14 +1,54 @@
 const axios = require("axios");
 const ONEAUTH_API = process.env.ONEAUTH_API || "http://localhost:4010/api";
+import { uniq } from "lodash";
 import { notelinkCollection, notelinkSchema } from "./model";
 const { getCollection } = require("../../lib/dbutils");
 import { nextval } from "../sequence/service";
 import * as NoteHelper from "../note/helper";
 
-export const getNotelink = async (space: string) => {
+export const getNotelink = async (
+  space: string,
+  noteref: string,
+  depth: string
+) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  return await model.find();
+  const data = await model.find();
+
+  if (!noteref || !depth) {
+    return data;
+  }
+
+  const _nearestLinks = _getNearestLinks(data, [noteref], parseInt(depth));
+
+  return _nearestLinks;
+};
+
+const _getNearestLinks = (
+  data: any[],
+  noteref: string[],
+  depth: number
+): any[] => {
+  let nearestLinks = data.filter(
+    (item: any) =>
+      noteref.includes(item.sourceNoteRef) ||
+      noteref.includes(item.linkedNoteRef)
+  );
+
+  if (depth === 1) {
+    return nearestLinks;
+  }
+
+  const nextNoteRef: string[] = [];
+  nearestLinks.forEach((item: any) => {
+    nextNoteRef.push(item.sourceNoteRef);
+    nextNoteRef.push(item.linkedNoteRef);
+  });
+
+  return [
+    ...nearestLinks,
+    ..._getNearestLinks(data, uniq(nextNoteRef), depth - 1),
+  ];
 };
 
 export const getBacklinksByReference = async (
