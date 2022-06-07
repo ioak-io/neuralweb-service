@@ -1,9 +1,5 @@
 import { authorizeApi } from "../../middlewares";
-import {
-  updateFilterGroup,
-  getFilterGroup,
-  publishAllFilterGroup,
-} from "./service";
+import { updateFilterGroup, getFilterGroup } from "./service";
 
 const selfRealm = 100;
 

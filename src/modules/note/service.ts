@@ -50,6 +50,14 @@ export const getNoteByReference = async (req: any, res: any) => {
   res.end();
 };
 
+export const filterNote = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const note: any = await Helper.filterNote(req.params.space, req.body.text);
+  res.status(200);
+  res.send(note);
+  res.end();
+};
+
 export const searchNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const note: any = await Helper.searchNote(req.params.space, req.body.text);

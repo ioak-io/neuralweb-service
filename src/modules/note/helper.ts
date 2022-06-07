@@ -171,9 +171,14 @@ export const searchNoteByText = async (space: string, text: string) => {
   return res;
 };
 
-export const searchNote = async (space: string, text: string) => {
+export const filterNote = async (space: string, text: string) => {
   const { file, path, tag, general } = getFilterKeys(text);
   return await applyFilter(space, file, tag, path, general);
+};
+
+export const searchNote = async (space: string, text: string) => {
+  const filterResults = (await filterNote(space, text))?.results || [];
+  return filterResults;
 };
 
 const getFilterKeys = (criteria: string) => {
