@@ -5,11 +5,11 @@ export const getCollection = (
   collection: any,
   schema: any
 ): any => {
-  const db = mongoose.connection.useDb(`metamind_${realm}`);
+  const db = mongoose.connection.useDb(`neuralweb_${realm}`);
   return db.model(collection, schema);
 };
 
 export const getGlobalCollection = (collection: any, schema: any): any => {
-  const db = mongoose.connection.useDb(`metamind`);
+  const db = mongoose.connection.useDb(`neuralweb`);
   return db.model(collection, schema);
 };

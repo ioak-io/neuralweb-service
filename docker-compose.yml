@@ -1,9 +1,9 @@
 version: "3.4"
 
 services:
-  metamindservice:
-    image: metamindservice
-    container_name: metamindservice
+  neuralwebservice:
+    image: neuralwebservice
+    container_name: neuralwebservice
     restart: always
     build:
       context: .
@@ -18,7 +18,7 @@ services:
     networks:
       ioak-net:
         aliases:
-          - metamindservice.docker
+          - neuralwebservice.docker
 
 networks:
   ioak-net:

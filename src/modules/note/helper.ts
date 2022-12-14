@@ -20,9 +20,10 @@ export const updateNote = async (space: string, data: any, userId?: string) => {
       { new: true, upsert: true }
     );
   } else {
+    console.log("*****", await nextval("noteId", undefined, space))
     response = await model.create({
       ...data,
-      reference: await nextval("noteId"),
+      reference: await nextval("noteId", undefined, space),
     });
   }
 

@@ -1,8 +1,8 @@
 version: "3.4"
 
 services:
-  metamindgraphserver:
-    image: metamindgraphserver
+  neuralwebgraphserver:
+    image: neuralwebgraphserver
     build:
       context: .
       dockerfile: ./Dockerfile

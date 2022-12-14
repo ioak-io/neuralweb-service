@@ -29,7 +29,7 @@ const postFeedbackSchema = require("./modules/post/feedback");
 const postFollowerSchema = require("./modules/post/follower");
 const postTagSchema = require("./modules/post/tag");
 
-const databaseUri = process.env.MONGODB_URI || "mongodb://localhost:27017";
+const databaseUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
 mongoose.connect(databaseUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
