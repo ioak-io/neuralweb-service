@@ -12,9 +12,9 @@ services:
       NODE_ENV: production
       MONGODB_URI: mongodb://mongo.docker:27017
       ONEAUTH_API: https://api.ioak.io:8010/api
-      PORT: 8045
+      PORT: 8025
     ports:
-      - 8045:8045
+      - 8025:8025
     networks:
       ioak-net:
         aliases:
