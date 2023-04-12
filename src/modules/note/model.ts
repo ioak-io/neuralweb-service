@@ -7,8 +7,9 @@ const noteSchema = new Schema(
     folderId: { type: String },
     content: { type: String },
     reference: { type: String },
+    labels: {type: Array}
   },
-  { timestamps: true }
+  { timestamps: true, strict: false, strictQuery: false }
 );
 
 const noteCollection = "note";

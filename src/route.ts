@@ -29,5 +29,8 @@ require("./modules/filter-group/route")(router);
 require("./modules/statistics/route")(router);
 require("./modules/account/route")(router);
 require("./modules/account/scope/route")(router);
+require("./modules/metadata/definition/route")(router);
+require("./modules/metadata/value/route")(router);
+require("./modules/label/route")(router);
 
 module.exports = router;
