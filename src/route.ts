@@ -19,6 +19,7 @@ require("./modules/category/route")(router);
 require("./modules/incomecategory/route")(router);
 require("./modules/note/tag/route")(router);
 require("./modules/notelink/route")(router);
+require("./modules/notelink/auto/route")(router);
 require("./modules/bill/route")(router);
 require("./modules/budget/route")(router);
 require("./modules/schedule/receipt/route")(router);

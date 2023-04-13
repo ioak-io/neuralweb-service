@@ -31,6 +31,14 @@ export const getNoteDictionary = async (req: any, res: any) => {
   res.end();
 };
 
+export const getRecentlyCreatedNote = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const noteList: any = await Helper.getRecentlyCreatedNote(req.params.space);
+  res.status(200);
+  res.send(noteList);
+  res.end();
+};
+
 export const getNoteById = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const note: any = await Helper.getNoteById(req.params.space, req.params.id);
@@ -50,17 +58,9 @@ export const getNoteByReference = async (req: any, res: any) => {
   res.end();
 };
 
-export const filterNote = async (req: any, res: any) => {
-  const userId = req.user.user_id;
-  const note: any = await Helper.filterNote(req.params.space, req.body.text);
-  res.status(200);
-  res.send(note);
-  res.end();
-};
-
 export const searchNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const note: any = await Helper.searchNote(req.params.space, req.body.text);
+  const note: any = await Helper.searchNote(req.params.space, req.body.text, req.body.searchPref);
   res.status(200);
   res.send(note);
   res.end();

@@ -7,6 +7,15 @@ import { nextval } from "../sequence/service";
 import * as NoteHelper from "../note/helper";
 
 export const getNotelink = async (
+  space: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
+
+  const data = await model.find();
+  return data;
+};
+
+export const getNotelinkOld = async (
   space: string,
   noteref: string,
   depth: string
@@ -181,4 +190,34 @@ export const addPossibleLink = async (
   await NoteHelper.updateNote(space, _sourceNote);
 
   return {};
+};
+
+
+export const saveNotelink = async (
+  space: string,
+  sourceNoteRef: string,
+  linkedNoteRef: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
+
+  return await model.create({
+    sourceNoteRef, linkedNoteRef
+  });
+};
+
+
+export const deleteNotelink = async (
+  space: string,
+  sourceNoteRef: string,
+  linkedNoteRef: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
+
+  await model.remove({
+    sourceNoteRef: linkedNoteRef, linkedNoteRef: sourceNoteRef
+  });
+
+  return await model.remove({
+    sourceNoteRef, linkedNoteRef
+  });
 };
