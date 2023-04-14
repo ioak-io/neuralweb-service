@@ -22,32 +22,12 @@ export const addLog = async (
   space: string,
   transactionId: string,
   transactionDate: Date,
-  expenseRecords: number,
-  expenseTotal: number,
-  incomeRecords: number,
-  incomeTotal: number,
-  receiptRecords: number,
-  receiptTotal: number,
-  budgetRecords: number,
-  budgetTotal: number,
-  categoryRecords: number,
-  incomeCategoryRecords: number
 ) => {
   const model = getCollection(space, importLogCollection, importLogSchema);
 
   return await model.create({
     transactionId,
     transactionDate,
-    expenseRecords,
-    expenseTotal,
-    incomeRecords,
-    incomeTotal,
-    receiptRecords,
-    receiptTotal,
-    budgetRecords,
-    budgetTotal,
-    categoryRecords,
-    incomeCategoryRecords,
   });
 };
 

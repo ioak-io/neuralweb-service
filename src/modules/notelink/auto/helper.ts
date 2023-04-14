@@ -9,3 +9,27 @@ export const getNotelinkAuto = async (
   const data = await model.find();
   return data;
 };
+
+export const getNotelinkAutoByNoteRef = async (
+  space: string,
+  reference: string
+) => {
+  const model = getCollection(space, notelinkAutoCollection, notelinkAutoSchema);
+
+  const data = await model.find({ '$or': [{ sourceNoteRef: reference }, { linkedNoteRef: reference }] });
+  return data;
+};
+
+
+export const deleteNotelinkByReference = async (
+  space: string, reference: string
+) => {
+  const model = getCollection(space, notelinkAutoCollection, notelinkAutoSchema);
+
+  await model.remove({
+    '$or': [
+      { sourceNoteRef: reference },
+      { linkedNoteRef: reference }
+    ]
+  });
+};

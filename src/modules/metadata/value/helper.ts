@@ -11,7 +11,6 @@ export const getMetadataValue = async (space: string) => {
   const response: any = {};
   for (let i = 0; i < metadataDefinitionList.length; i++) {
     const id = metadataDefinitionList[i]._id.toString();
-    console.log(metadataDefinitionList[i]._id.toString(), typeof metadataDefinitionList[i]._id.toString());
     if (metadataDefinitionList[i].linkable) {
       response[id] = await model.find().distinct(id);
     }

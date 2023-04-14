@@ -8,7 +8,8 @@ import {
   getNoteById,
   getNoteByReference,
   deleteNote,
-  getRecentlyCreatedNote
+  getRecentlyCreatedNote,
+  deleteNoteByReference
 } from "./service";
 
 const selfRealm = 100;
@@ -34,6 +35,7 @@ module.exports = function (router: any) {
     asyncHandler(getNoteByReference)
   );
   router.delete("/note/:space/:id", authorizeApi, asyncHandler(deleteNote));
+  router.delete("/note/:space/reference/:reference", authorizeApi, asyncHandler(deleteNoteByReference));
   // router.post("/auth/token", issueToken);
   // router.get("/auth/token/decode", authorizeApi, decodeToken);
   // router.post("/auth/logout", logout);
