@@ -7,6 +7,7 @@ import { format, parse } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import * as LogHelper from "./log/helper";
 import * as NoteHelper from "../note/helper";
+import * as NotelinkHelper from "../notelink/helper";
 
 const refDate = new Date();
 
@@ -19,12 +20,12 @@ export const deleteTransaction = async (
 };
 
 export const exportData = async (space: string, userId: string) => {
-  // const budgetList = await BudgetHelper.getBudget(space);
-  // const res = [...expenseRes, ...incomeRes, ...budgetRes];
   const note = await NoteHelper.getNote(space);
+  const notelink = await NotelinkHelper.getNotelink(space);
 
   const response = {
-    note
+    note,
+    notelink
   }
 
   return response;
