@@ -380,7 +380,7 @@ const _ai_train = async (space: string) => {
   try {
     await axios.get(`${AI_API}/similarity/${space}/train`, {});
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 }
 
@@ -388,7 +388,7 @@ const _ai_populate = async (space: string) => {
   try {
     await axios.get(`${AI_API}/similarity/${space}/populate`, {});
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 }
 
@@ -396,7 +396,7 @@ const _ai_populate_for_note = async (space: string, reference: string) => {
   try {
     await axios.get(`${AI_API}/similarity/${space}/populate/${reference}`, {});
   } catch (err) {
-    // console.log(err);
+    console.log(err);
   }
 }
 
