@@ -38,9 +38,10 @@ export const nextval = async (
   } else {
     model = getGlobalCollection(sequenceCollection, sequenceSchema);
   }
-  const sequence = await model.findOne({ field, context });
+  let sequence = await model.findOne({ field, context });
   if (!sequence) {
-    return null;
+    await create_sequence(field, context || null, 1, space);
+    sequence = await model.findOne({ field, context });
   }
   await model.findOneAndUpdate(
     { field, context },
@@ -48,4 +49,28 @@ export const nextval = async (
     { upsert: true, new: true }
   );
   return sequence.nextval;
+};
+
+export const resetval = async (
+  value: number,
+  field: String,
+  context?: String,
+  space?: String
+) => {
+  let model;
+  if (space) {
+    model = getCollection(space, sequenceCollection, sequenceSchema);
+  } else {
+    model = getGlobalCollection(sequenceCollection, sequenceSchema);
+  }
+  let sequence = await model.findOne({ field, context });
+  if (!sequence) {
+    await create_sequence(field, context || null, 1, space);
+    sequence = await model.findOne({ field, context });
+  }
+  await model.findOneAndUpdate(
+    { field, context },
+    { nextval: value },
+    { upsert: true, new: true }
+  );
 };

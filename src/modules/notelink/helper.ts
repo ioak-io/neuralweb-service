@@ -7,6 +7,15 @@ import { nextval } from "../sequence/service";
 import * as NoteHelper from "../note/helper";
 
 export const getNotelink = async (
+  space: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
+
+  const data = await model.find();
+  return data;
+};
+
+export const getNotelinkOld = async (
   space: string,
   noteref: string,
   depth: string
@@ -115,70 +124,42 @@ export const addLinksForSourceNoteRef = async (
   return await model.insertMany(data);
 };
 
-export const getPossibleLinksByReference = async (
+
+export const saveNotelink = async (
   space: string,
-  reference: string
+  sourceNoteRef: string,
+  linkedNoteRef: string
 ) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  const backlinks = await model.find({ linkedNoteRef: reference });
-
-  const excludeNoteRefList: string[] = [];
-  backlinks.forEach((item: any) => {
-    excludeNoteRefList.push(item.sourceNoteRef);
+  return await model.create({
+    sourceNoteRef, linkedNoteRef
   });
-
-  const note = await NoteHelper.getNoteByReference(space, reference);
-
-  if (!note) {
-    return [];
-  }
-
-  const res = await NoteHelper.searchNoteByText(space, note.name);
-  const backlinkDetailList: any[] = [];
-
-  res.forEach((item: any) => {
-    if (!excludeNoteRefList.includes(item.reference)) {
-      backlinkDetailList.push({
-        sourceNoteRef: item.reference,
-        sourceNote: item,
-        linkedNoteRef: reference,
-      });
-    }
-  });
-
-  return backlinkDetailList;
 };
 
-export const addPossibleLink = async (
+
+export const deleteNotelink = async (
   space: string,
-  sourceReference: string,
-  linkedReference: string
+  sourceNoteRef: string,
+  linkedNoteRef: string
 ) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  const sourceNote = await NoteHelper.getNoteByReference(
-    space,
-    sourceReference
-  );
-  const linkedNote = await NoteHelper.getNoteByReference(
-    space,
-    linkedReference
-  );
+  return await model.remove({
+    sourceNoteRef, linkedNoteRef
+  });
+};
 
-  if (!sourceNote || !linkedNote) {
-    return {};
-  }
 
-  const _sourceNote = {
-    ...sourceNote._doc,
-    content: sourceNote.content.replace(
-      new RegExp(linkedNote.name, "ig"),
-      `[[${linkedNote.reference}]]`
-    ),
-  };
+export const deleteNotelinkByReference = async (
+  space: string, reference: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  await NoteHelper.updateNote(space, _sourceNote);
-
-  return {};
+  await model.remove({
+    '$or': [
+      { sourceNoteRef: reference },
+      { linkedNoteRef: reference }
+    ]
+  });
 };
