@@ -14,9 +14,9 @@ export const importExpense = async (req: any, res: any) => {
   res.end();
 };
 
-export const exportExpense = async (req: any, res: any) => {
+export const exportData = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const response: any = await Helper.exportExpense(req.params.space, userId);
+  const response: any = await Helper.exportData(req.params.space, userId);
   res.status(200);
   res.send(response);
   res.end();

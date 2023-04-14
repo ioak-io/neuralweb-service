@@ -6,7 +6,7 @@ import * as Papa from "papaparse";
 import { format, parse } from "date-fns";
 import { v4 as uuidv4 } from "uuid";
 import * as LogHelper from "./log/helper";
-import { isEmptyOrSpaces } from "../../lib/Utils";
+import * as NoteHelper from "../note/helper";
 
 const refDate = new Date();
 
@@ -18,29 +18,16 @@ export const deleteTransaction = async (
   await LogHelper.deleteLogByTransactionId(space, transactionId);
 };
 
-export const exportExpense = async (space: string, userId: string) => {
+export const exportData = async (space: string, userId: string) => {
   // const budgetList = await BudgetHelper.getBudget(space);
   // const res = [...expenseRes, ...incomeRes, ...budgetRes];
-  const res: any[] = [];
+  const note = await NoteHelper.getNote(space);
 
-  const csv = Papa.unparse({
-    data: res,
-    fields: [
-      "type",
-      "category",
-      "kakeibo",
-      "date",
-      "year",
-      "month",
-      "description",
-      "amount",
-      "tag",
-      "billDescription",
-      "billNumber",
-    ],
-  });
+  const response = {
+    note
+  }
 
-  return csv;
+  return response;
 };
 
 export const transformExpenseDataForExport = (

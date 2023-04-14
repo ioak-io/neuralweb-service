@@ -1,6 +1,6 @@
 import { asyncHandler } from "../../handler";
 import { authorizeApi } from "../../middlewares";
-import { importExpense, deleteTransaction, exportExpense } from "./service";
+import { importExpense, deleteTransaction, exportData } from "./service";
 const multer = require("multer");
 var upload = multer();
 
@@ -13,7 +13,7 @@ module.exports = function (router: any) {
     authorizeApi,
     asyncHandler(importExpense)
   );
-  router.post("/export/:space", authorizeApi, asyncHandler(exportExpense));
+  router.post("/export/:space", authorizeApi, asyncHandler(exportData));
   router.delete(
     "/import/:space/transaction/:transactionId",
     authorizeApi,

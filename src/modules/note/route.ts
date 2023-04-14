@@ -9,14 +9,14 @@ import {
   getNoteByReference,
   deleteNote,
   getRecentlyCreatedNote,
-  deleteNoteByReference
+  deleteNoteByReference,
 } from "./service";
 
 const selfRealm = 100;
 
 module.exports = function (router: any) {
   router.put("/note/:space", authorizeApi, asyncHandler(updateNote));
-  router.get("/note/:space", authorizeApi, asyncHandler(getNote));
+  // router.get("/note/:space", authorizeApi, asyncHandler(getNote));
   router.post("/note/:space/search", authorizeApi, asyncHandler(searchNote));
   router.get(
     "/note/:space/dictionary",
