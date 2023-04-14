@@ -12,7 +12,7 @@ services:
       NODE_ENV: production
       MONGODB_URI: mongodb://mongo.docker:27017
       ONEAUTH_API: https://api.ioak.io:8010/api
-      AI_API: http://localhost:5003/api
+      AI_API: http://neuralwebai.docker:5003/api
       PORT: 8025
     ports:
       - 8025:8025
