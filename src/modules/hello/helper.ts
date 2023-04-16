@@ -7,6 +7,7 @@ import { isEmptyOrSpaces } from "../../lib/Utils";
 const AI_API = process.env.AI_API || "http://localhost:5003/api";
 
 export const train_similarity_model = async (space: string) => {
-    await NoteHelper._ai_train(space);
-    await NoteHelper._ai_populate(space);
+  await NoteHelper._ai_train(space);
+  await NoteHelper._ai_populate(space);
+  return { "status": "success" };
 };
