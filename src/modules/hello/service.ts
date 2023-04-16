@@ -8,7 +8,6 @@ import { getCollection } from "../../lib/dbutils";
 const selfRealm = 100;
 
 export const train_similarity_model = async (req: any, res: any) => {
-  const userId = req.user.user_id;
   const note: any = await Helper.train_similarity_model(req.params.space);
   res.status(200);
   res.send(note);
