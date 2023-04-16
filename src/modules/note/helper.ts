@@ -377,6 +377,7 @@ const _getSearchCondition = async (space: string, text: string, textList: string
 }
 
 export const _ai_train = async (space: string) => {
+  console.log("AI_API=", AI_API);
   try {
     await axios.get(`${AI_API}/similarity/${space}/train`, {});
   } catch (err) {
