@@ -10,9 +10,7 @@ module.exports = function (router: any) {
     );
     res.end();
   });
-};
 
-module.exports = function (router: any) {
   router.get(
     "/hello/:space/train",
     asyncHandler(train_similarity_model)
