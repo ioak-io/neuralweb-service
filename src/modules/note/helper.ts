@@ -376,7 +376,7 @@ const _getSearchCondition = async (space: string, text: string, textList: string
   return condition;
 }
 
-const _ai_train = async (space: string) => {
+export const _ai_train = async (space: string) => {
   try {
     await axios.get(`${AI_API}/similarity/${space}/train`, {});
   } catch (err) {
@@ -384,7 +384,7 @@ const _ai_train = async (space: string) => {
   }
 }
 
-const _ai_populate = async (space: string) => {
+export const _ai_populate = async (space: string) => {
   try {
     await axios.get(`${AI_API}/similarity/${space}/populate`, {});
   } catch (err) {
