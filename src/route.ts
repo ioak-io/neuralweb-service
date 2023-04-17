@@ -20,6 +20,8 @@ require("./modules/import/log/route")(router);
 require("./modules/colorfilter/route")(router);
 require("./modules/metadata/definition/route")(router);
 require("./modules/metadata/value/route")(router);
+require("./modules/stopwords/route")(router);
+require("./modules/keywords/route")(router);
 require("./modules/label/route")(router);
 
 module.exports = router;
