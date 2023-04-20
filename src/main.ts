@@ -95,6 +95,7 @@ const server = new ApolloServer({
 server.applyMiddleware({ app });
 
 app.use(cors());
+app.use(express.static(__dirname + '/public'));
 
 app.get("/hello", (_: any, res: any) => {
   res.send(
