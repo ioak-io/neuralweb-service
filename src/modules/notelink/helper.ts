@@ -15,6 +15,20 @@ export const getNotelink = async (
   return data;
 };
 
+export const getNotelinkByReference = async (
+  space: string, reference: string
+) => {
+  const model = getCollection(space, notelinkCollection, notelinkSchema);
+
+  const data = await model.find({
+    '$or': [
+      { sourceNoteRef: reference }
+      { linkedNoteRef: reference }
+    ]
+  });
+  return data;
+};
+
 export const getNotelinkOld = async (
   space: string,
   noteref: string,

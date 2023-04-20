@@ -13,3 +13,11 @@ export const generateReportForNote = async (req: any, res: any) => {
   res.send(report);
   res.end();
 };
+
+
+export const generateReport = async (req: any, res: any) => {
+  const report: any = await Helper.generateReport(req.params.space);
+  res.status(200);
+  res.send(report);
+  res.end();
+};

@@ -1,0 +1,19 @@
+<html>
+
+<body>
+  <%- include('template_created_date.ejs') %>
+  <h5>
+    <%= title %>
+  </h5>
+  <%- include('template_keywords.ejs') %>
+  <% if (summary && summary.length > 0) { %>
+  <p class="summary">
+    <%= summary %>
+  </p>
+  <% } %>
+  <p>
+    <%- content %>
+  </p>
+</body>
+
+</html>

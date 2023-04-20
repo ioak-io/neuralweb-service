@@ -5,7 +5,11 @@
 
 <%- include('template_note_styles.ejs') %>
 <%- include('partials/template_labels_styles.ejs') %>
+<%- include('partials/template_keywords_styles.ejs') %>
 <%- include('partials/template_created_date_styles.ejs') %>
+<%- include('partials/template_noteref_styles.ejs') %>
+<%- include('partials/template_section_title_styles.ejs') %>
+
 <body>
   <h1>
     <%= title %>
@@ -20,7 +24,6 @@
   <p>
     <%- content %>
   </p>
-  <div class="page-break"></div>
 </body>
 
 </html>
