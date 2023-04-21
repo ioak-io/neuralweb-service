@@ -29,7 +29,7 @@ export const generateReport = async (space: string) => {
   let html = '';
   for (let i = 0; i < noteList.length; i++) {
     html += await generateReportForNote(space, noteList[i].reference, metadataDefinitionList);
-    html += await ejs.renderFile(_get_template_path('\\src\\templates\\partials\\template_pagebreak.ejs'), {});
+    html += await ejs.renderFile(_get_template_path('/src/templates/partials/template_pagebreak.ejs'), {});
   }
 
   return _get_zip_file(html);
@@ -59,12 +59,12 @@ export const generateReportForNote = async (space: string, reference: string, me
     data.labels = [note.primaryLabel, ...note.labels.filter((item: string) => item !== note.primaryLabel)];
   }
 
-  let html = await ejs.renderFile(_get_template_path('\\src\\templates\\template_note.ejs'), data);
+  let html = await ejs.renderFile(_get_template_path('/src/templates/template_note.ejs'), data);
 
   const notelinks = await NoteLinkHelper.getNotelinkByReference(space, reference);
   const notelinksAuto = await NoteLinkAutoHelper.getNotelinkAutoByNoteRef(space, reference);
 
-  if (notelinks.length > 0) { html += await ejs.renderFile(_get_template_path('\\src\\templates\\partials\\template_section_title.ejs'), { title: "References" }); }
+  if (notelinks.length > 0) { html += await ejs.renderFile(_get_template_path('/src/templates/partials/template_section_title.ejs'), { title: "References" }); }
 
   for (let i = 0; i < notelinks.length; i++) {
     let linkedNoteRef = notelinks[i].linkedNoteRef;
@@ -75,7 +75,7 @@ export const generateReportForNote = async (space: string, reference: string, me
     html += refNote;
   }
 
-  if (notelinksAuto.length > 0) { html += await ejs.renderFile(_get_template_path('\\src\\templates\\partials\\template_section_title.ejs'), { title: "Auto linked References" }); }
+  if (notelinksAuto.length > 0) { html += await ejs.renderFile(_get_template_path('/src/templates/partials/template_section_title.ejs'), { title: "Auto linked References" }); }
 
   for (let i = 0; i < notelinksAuto.length; i++) {
     let linkedNoteRef = notelinksAuto[i].linkedNoteRef;
@@ -116,7 +116,7 @@ export const generateReportForNoteRef = async (space: string, reference: string,
 
   data.keywords = intersection(sourceKeywords, note._doc.keywords);
 
-  const html = ejs.renderFile(_get_template_path('\\src\\templates\\partials\\template_noteref.ejs'), data);
+  const html = ejs.renderFile(_get_template_path('/src/templates/partials/template_noteref.ejs'), data);
 
   return html;
 };
