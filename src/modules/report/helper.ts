@@ -1,6 +1,7 @@
 const axios = require("axios");
 import { intersection } from 'lodash';
 const ONEAUTH_API = process.env.ONEAUTH_API || "http://localhost:4010/api";
+import * as MetadataDefinitionHelper from "../metadata/definition/helper";
 import * as NoteLinkHelper from "../notelink/helper";
 import * as NoteLinkAutoHelper from "../notelink/auto/helper";
 import * as NoteHelper from "../note/helper";
@@ -17,31 +18,38 @@ const _get_template_path = (name: string) => {
 const _get_zip_file = async (data: string) => {
   const zip = new jszip();
   zip.file("index.html", data);
-  return await zip.generateAsync({ type: "nodebuffer", compression: "DEFLATE" });
+  return data;
+  return await zip.generateAsync({ type: "base64", compression: "DEFLATE" });
 }
 
 export const generateReport = async (space: string) => {
 
   const noteList = await NoteHelper.getNote(space);
+  const metadataDefinitionList = await MetadataDefinitionHelper.getMetadataDefinition(space);
   let html = '';
   for (let i = 0; i < noteList.length; i++) {
-    html += await generateReportForNote(space, noteList[i].reference);
+    html += await generateReportForNote(space, noteList[i].reference, metadataDefinitionList);
     html += await ejs.renderFile(_get_template_path('\\src\\templates\\partials\\template_pagebreak.ejs'), {});
   }
 
   return _get_zip_file(html);
 }
 
-export const generateReportForNote = async (space: string, reference: string) => {
+export const generateReportForNote = async (space: string, reference: string, metadataDefinitionList?: any[]) => {
   const note = await NoteHelper.getNoteByReference(space, reference);
   if (!note) {
     return "Note not found";
   }
 
+  let _metadataDefinitionList: any = metadataDefinitionList;
+  if (!_metadataDefinitionList) {
+    _metadataDefinitionList = await MetadataDefinitionHelper.getMetadataDefinition(space);
+  }
+
   const data: any = {
     title: note.name,
     summary: note.summary,
-    content: note.content,
+    content: note.content.replace(/<p>​<\/p>/gi, ''),
     keywords: note.keywords,
     labels: [],
     createdAt: formatDateText(note.createdAt, FORMAT_FULL_DATE)
@@ -63,7 +71,7 @@ export const generateReportForNote = async (space: string, reference: string) =>
     if (linkedNoteRef === reference) {
       linkedNoteRef = notelinks[i].sourceNoteRef;
     }
-    const refNote = await generateReportForNoteRef(space, linkedNoteRef, undefined);
+    const refNote = await generateReportForNoteRef(space, linkedNoteRef, null, _metadataDefinitionList);
     html += refNote;
   }
 
@@ -74,14 +82,14 @@ export const generateReportForNote = async (space: string, reference: string) =>
     if (linkedNoteRef === reference) {
       linkedNoteRef = notelinksAuto[i].sourceNoteRef;
     }
-    const refNote = await generateReportForNoteRef(space, linkedNoteRef, note._doc.keywords);
+    const refNote = await generateReportForNoteRef(space, linkedNoteRef, note._doc.keywords, _metadataDefinitionList);
     html += refNote;
   }
 
   return _get_zip_file(html);
 };
 
-export const generateReportForNoteRef = async (space: string, reference: string, sourceKeywords?: string[]) => {
+export const generateReportForNoteRef = async (space: string, reference: string, sourceKeywords: string[] | null, metadataDefinitionList: any[]) => {
   const note = await NoteHelper.getNoteByReference(space, reference);
   const data: any = {
     title: note.name,
@@ -90,6 +98,17 @@ export const generateReportForNoteRef = async (space: string, reference: string,
     keywords: note.keywords,
     createdAt: formatDateText(note.createdAt, FORMAT_FULL_DATE)
   };
+
+  const metadata: { name: string, value: string }[] = [];
+
+  metadataDefinitionList.forEach((item: any) => {
+    metadata.push({
+      name: `${item._doc.group} | ${item._doc.name}`,
+      value: note._doc[item._doc._id]
+    })
+  })
+
+  data.metadata = metadata;
 
   if (!isEmptyOrSpaces(note.primaryLabel)) {
     data.labels = [note.primaryLabel, ...note.labels.filter((item: string) => item !== note.primaryLabel)];

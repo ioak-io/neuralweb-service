@@ -1,0 +1,16 @@
+<% if (metadata.length > 0) {%>
+<div class="metadata">
+  <% for(let i = 0; i< metadata.length; i++) { %>
+  <% if (metadata[i].value) {%>
+  <div class="metadata-item">
+    <div class="metadata-name">
+      <%= metadata[i].name %>:&nbsp;
+    </div>
+    <div class="metadata-value">
+      <%= metadata[i].value || '-' %>
+    </div>
+  </div>
+  <% } %>
+  <% } %>
+</div>
+<% } %>

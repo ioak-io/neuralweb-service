@@ -8,6 +8,7 @@
 <%- include('partials/template_keywords_styles.ejs') %>
 <%- include('partials/template_created_date_styles.ejs') %>
 <%- include('partials/template_noteref_styles.ejs') %>
+<%- include('partials/template_metadata_styles.ejs') %>
 <%- include('partials/template_section_title_styles.ejs') %>
 
 <body>
@@ -16,14 +17,12 @@
   </h1>
   <%- include('partials/template_created_date.ejs') %>
   <%- include('partials/template_labels.ejs') %>
-  <% if (summary && summary.length > 0) { %>
+  <% if (summary) { %>
   <p class="summary">
     <%= summary %>
   </p>
   <% } %>
-  <p>
-    <%- content %>
-  </p>
+  <%- content %>
 </body>
 
 </html>
