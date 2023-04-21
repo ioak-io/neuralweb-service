@@ -22,7 +22,7 @@ export const getNotelinkByReference = async (
 
   const data = await model.find({
     '$or': [
-      { sourceNoteRef: reference }
+      { sourceNoteRef: reference },
       { linkedNoteRef: reference }
     ]
   });
