@@ -18,7 +18,7 @@ const _get_template_path = (name: string) => {
 const _get_zip_file = async (data: string) => {
   const zip = new jszip();
   zip.file("index.html", data);
-  return data;
+  // return data;
   return await zip.generateAsync({ type: "base64", compression: "DEFLATE" });
 }
 
