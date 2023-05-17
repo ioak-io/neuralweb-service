@@ -18,10 +18,10 @@ export const createUserInviteEndpoint = async (req: any, res: any) => {
 export const registerUserInvite = async (
   space: string,
   companyId: any,
-  userId: string
+  userId: string,
+  email: string
 ) => {
-  const user = await userService.getUserById(userId);
-  return await Helper.registerUserInvite(space, companyId, userId, user.email);
+  return await Helper.registerUserInvite(space, companyId, userId, email);
 };
 
 export const getUserInvite = async (req: any, res: any) => {

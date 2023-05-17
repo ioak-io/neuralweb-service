@@ -1,5 +1,6 @@
 import * as Helper from "./helper";
 import * as userInviteService from "../user/invite/service";
+import * as PermissionHelper from "../permission/helper";
 
 const selfRealm = 100;
 
@@ -9,8 +10,10 @@ export const updateCompany = async (req: any, res: any) => {
   userInviteService.registerUserInvite(
     company._doc.reference,
     company._doc._id,
-    userId
+    userId,
+    req.user.email
   );
+  await PermissionHelper.addRole(req.user.email, company._doc.reference);
   res.status(200);
   res.send(company);
   res.end();

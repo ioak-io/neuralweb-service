@@ -33,23 +33,24 @@ export const authorizeApiOneauth = async (req: any, res: any, next: any) => {
   }
 };
 
+
 export const authorizeApi = async (req: any, res: any, next: any) => {
   try {
     const token = req.headers["authorization"];
     if (!token) {
       return res.sendStatus(401);
     }
-    const localData = await decodeAppToken(token);
-    if (!localData.outcome) {
-      return res.sendStatus(401);
-    }
-    const localClaims: any = localData.claims;
-    const space = localClaims.space;
-    const companyId = localClaims.companyId;
-    const data = await decodeToken(localClaims.accessToken);
+    // const localData = await decodeAppToken(token);
+    // if (!localData.outcome) {
+    //   return res.sendStatus(401);
+    // }
+    // const localClaims: any = localData.claims;
+    // const space = localClaims.space;
+    // const companyId = localClaims.companyId;
+    const data: any = await decodeToken(token);
     if (
       !data.outcome ||
-      (req.params.space && !space.includes(parseInt(req.params.space)))
+      (req.params.space && (!data.claims?.permissions || !data.claims?.permissions['COMPANY_ADMIN']?.includes(req.params.space)))
     ) {
       return res.sendStatus(401);
     }
