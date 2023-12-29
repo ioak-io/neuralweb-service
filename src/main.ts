@@ -31,8 +31,6 @@ const postTagSchema = require("./modules/post/tag");
 
 const databaseUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017";
 mongoose.connect(databaseUri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 });
 mongoose.pluralize(undefined);
 
@@ -92,10 +90,10 @@ const server = new ApolloServer({
   playground: true,
 });
 
-server.applyMiddleware({ app });
+server.start().then(() => server.applyMiddleware({ app }))
+
 
 app.use(cors());
-app.use(express.static(__dirname + '/public'));
 
 app.get("/hello", (_: any, res: any) => {
   res.send(

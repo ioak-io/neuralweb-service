@@ -15,7 +15,7 @@ export const decodeAccessToken = async (space: number, accessToken: string) => {
         authorization: accessToken,
       },
     });
-  } catch (err) {
+  } catch (err: any) {
     if (err.response.status === 401) {
       return "expired";
     }
