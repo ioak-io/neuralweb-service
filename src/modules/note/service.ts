@@ -66,6 +66,14 @@ export const searchNote = async (req: any, res: any) => {
   res.end();
 };
 
+export const getNotesByMetadataValue = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const note: any = await Helper.getNotesByMetadataValue(req.params.space, req.params.metadataId, req.body);
+  res.status(200);
+  res.send(note);
+  res.end();
+};
+
 export const deleteNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const outcome: any = await Helper.deleteNote(req.params.space, req.params.id);

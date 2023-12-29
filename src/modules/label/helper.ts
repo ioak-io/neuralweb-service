@@ -7,9 +7,6 @@ export const getLabel = async (space: string) => {
   const noteTags = await NoteTagHelper.getTag(space);
   const labels = await NoteHelper.getLabels(space);
 
-
-  console.log("---", labels);
-
   // const labels: string[] = [];
 
   // noteTags.forEach((item: any) => {
