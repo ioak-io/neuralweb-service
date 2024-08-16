@@ -25,6 +25,7 @@ export const updateCompany = async (data: any, userId: string) => {
   });
 
   await create_sequence("noteId", null, 1, response.reference);
+  await create_sequence("fleetingnoteId", null, 1, response.reference);
 
   await StopwordsHelper.resetStopwords(response.reference);
 

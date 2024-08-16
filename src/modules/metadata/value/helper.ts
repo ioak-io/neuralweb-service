@@ -16,6 +16,5 @@ export const getMetadataValue = async (space: string) => {
     }
   }
 
-  const test = await model.find().distinct('642e5ea0fc9ff740d80faaa7');
   return response;
 };

@@ -74,6 +74,14 @@ export const getNotesByMetadataValue = async (req: any, res: any) => {
   res.end();
 };
 
+export const browseNotes = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const note: any = await Helper.browseNotes(req.params.space, req.body);
+  res.status(200);
+  res.send(note);
+  res.end();
+};
+
 export const deleteNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const outcome: any = await Helper.deleteNote(req.params.space, req.params.id);
@@ -86,6 +94,16 @@ export const deleteNote = async (req: any, res: any) => {
 export const deleteNoteByReference = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const outcome: any = await Helper.deleteNoteByReference(req.params.space, req.params.reference);
+  res.status(200);
+  res.send(outcome);
+  res.end();
+};
+
+
+
+export const deleteNoteByReferenceList = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const outcome: any = await Helper.deleteNoteByReferenceList(req.params.space, req.body);
   res.status(200);
   res.send(outcome);
   res.end();

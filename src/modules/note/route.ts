@@ -10,7 +10,9 @@ import {
   deleteNote,
   getRecentlyCreatedNote,
   deleteNoteByReference,
-  getNotesByMetadataValue
+  getNotesByMetadataValue,
+  browseNotes,
+  deleteNoteByReferenceList,
 } from "./service";
 
 const selfRealm = 100;
@@ -19,7 +21,12 @@ module.exports = function (router: any) {
   router.put("/note/:space", authorizeApi, asyncHandler(updateNote));
   // router.get("/note/:space", authorizeApi, asyncHandler(getNote));
   router.post("/note/:space/search", authorizeApi, asyncHandler(searchNote));
-  router.post("/note/:space/metadata/:metadataId", authorizeApi, asyncHandler(getNotesByMetadataValue));
+  router.post(
+    "/note/:space/metadata/:metadataId",
+    authorizeApi,
+    asyncHandler(getNotesByMetadataValue)
+  );
+  router.post("/note/:space/browse", authorizeApi, asyncHandler(browseNotes));
   router.get(
     "/note/:space/dictionary",
     authorizeApi,
@@ -37,7 +44,16 @@ module.exports = function (router: any) {
     asyncHandler(getNoteByReference)
   );
   router.delete("/note/:space/:id", authorizeApi, asyncHandler(deleteNote));
-  router.delete("/note/:space/reference/:reference", authorizeApi, asyncHandler(deleteNoteByReference));
+  router.post(
+    "/note/:space/delete/byreference",
+    authorizeApi,
+    asyncHandler(deleteNoteByReferenceList)
+  );
+  router.delete(
+    "/note/:space/reference/:reference",
+    authorizeApi,
+    asyncHandler(deleteNoteByReference)
+  );
   // router.post("/auth/token", issueToken);
   // router.get("/auth/token/decode", authorizeApi, decodeToken);
   // router.post("/auth/logout", logout);
