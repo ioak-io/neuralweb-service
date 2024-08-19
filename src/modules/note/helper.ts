@@ -327,7 +327,6 @@ export const deleteNoteByReferenceList = async (
   space: string,
   payload: string[]
 ) => {
-  console.log(payload);
   const model = getCollection(space, noteCollection, noteSchema);
 
   await model.deleteMany({ reference: { $in: payload } });

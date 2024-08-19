@@ -37,7 +37,7 @@ export const deleteLogByTransactionId = async (
 ) => {
   const model = getCollection(space, importLogCollection, importLogSchema);
 
-  return await model.remove({
+  return await model.deleteMany({
     transactionId,
   });
 };

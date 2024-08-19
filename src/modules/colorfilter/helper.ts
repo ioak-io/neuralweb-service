@@ -41,7 +41,7 @@ export const getColorfilter = async (space: string) => {
 export const deleteColorfilter = async (space: string, _id: string) => {
   const model = getCollection(space, colorfilterCollection, colorfilterSchema);
 
-  await model.remove({ _id });
+  await model.deleteMany({ _id });
   return { colorfilter: [_id] };
 };
 

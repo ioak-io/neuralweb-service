@@ -32,7 +32,7 @@ export const getStopwords = async (space: string) => {
 export const deleteStopword = async (space: string, _id: string) => {
   const model = getCollection(space, stopwordsCollection, stopwordsSchema);
 
-  await model.remove({ _id });
+  await model.deleteMany({ _id });
   return await getStopwords(space);
 };
 

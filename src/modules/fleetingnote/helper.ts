@@ -320,7 +320,7 @@ export const deleteFleetingnotesByFolderIdList = async (
     fleetingnoteSchema
   );
 
-  return await model.remove({ folderId: { $in: folderIdList } });
+  return await model.deleteMany({ folderId: { $in: folderIdList } });
 };
 
 export const getFleetingnotesByFolderIdList = async (
@@ -356,7 +356,7 @@ export const deleteFleetingnote = async (space: string, _id: string) => {
     fleetingnoteSchema
   );
 
-  await model.remove({ _id });
+  await model.deleteMany({ _id });
   return { fleetingnote: _id };
 };
 
@@ -370,7 +370,7 @@ export const deleteFleetingnoteByReference = async (
     fleetingnoteSchema
   );
 
-  await model.remove({ reference });
+  await model.deleteMany({ reference });
   await FleetingnotelinkHelper.deleteNotelinkByReference(space, reference);
   return { fleetingnote: reference };
 };

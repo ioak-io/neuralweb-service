@@ -16,7 +16,7 @@ export const updateMetadataDefinition = async (space: string, data: any[], userI
     responseList.push(response);
     idList.push(response._id);
   }
-  await model.remove({ _id: { $nin: idList } })
+  await model.deleteMany({ _id: { $nin: idList } })
 
   return await model.find().sort({ group: "ascending", name: "ascending" });
 };
@@ -51,6 +51,6 @@ export const getMetadataDefinition = async (space: string) => {
 export const deleteMetadataDefinition = async (space: string, _id: string) => {
   const model = getCollection(space, metadataDefinitionCollection, metadataDefinitionSchema);
 
-  await model.remove({ _id });
+  await model.deleteMany({ _id });
   return { metadataDefinition: [_id] };
 };

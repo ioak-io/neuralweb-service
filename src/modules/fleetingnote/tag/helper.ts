@@ -11,7 +11,7 @@ export const getTag = async (space: string) => {
 
 export const deleteByNoteRef = async (space: string, noteRef: string) => {
   const model = getCollection(space, fleetingnoteTagCollection, fleetingnoteTagSchema);
-  return await model.remove({ noteRef });
+  return await model.deleteMany({ noteRef });
 };
 
 export const addTagsForNoteRef = async (

@@ -26,7 +26,7 @@ export const deleteNotelinkByReference = async (
 ) => {
   const model = getCollection(space, fleetingnotelinkCollection, fleetingnotelinkSchema);
 
-  await model.remove({
+  await model.deleteMany({
     '$or': [
       { sourceNoteRef: reference },
       { linkedNoteRef: reference }

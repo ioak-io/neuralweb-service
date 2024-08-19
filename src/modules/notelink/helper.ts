@@ -115,7 +115,7 @@ export const deleteBySourceNoteRef = async (
   sourceNoteRef: string
 ) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
-  return await model.remove({ sourceNoteRef });
+  return await model.deleteMany({ sourceNoteRef });
 };
 
 export const addLinksForSourceNoteRef = async (
@@ -154,7 +154,7 @@ export const deleteNotelink = async (
 ) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  return await model.remove({
+  return await model.deleteMany({
     sourceNoteRef,
     linkedNoteRef,
   });
@@ -166,7 +166,7 @@ export const deleteNotelinkByReference = async (
 ) => {
   const model = getCollection(space, notelinkCollection, notelinkSchema);
 
-  await model.remove({
+  await model.deleteMany({
     $or: [{ sourceNoteRef: reference }, { linkedNoteRef: reference }],
   });
 };
