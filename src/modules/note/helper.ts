@@ -550,3 +550,14 @@ export const getKeywords = async (space: string) => {
 
   return await model.distinct("keywords");
 };
+
+export const brainstormUsingAi = async (
+  space: string,
+  payload: {
+    instruction: string;
+    text: string;
+  }
+) => {
+  console.log(payload);
+  return payload.text;
+};

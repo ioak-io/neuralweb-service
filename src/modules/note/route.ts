@@ -13,6 +13,7 @@ import {
   getNotesByMetadataValue,
   browseNotes,
   deleteNoteByReferenceList,
+  brainstormUsingAi,
 } from "./service";
 
 const selfRealm = 100;
@@ -36,6 +37,11 @@ module.exports = function (router: any) {
     "/note/:space/recently-created",
     authorizeApi,
     asyncHandler(getRecentlyCreatedNote)
+  );
+  router.post(
+    "/note/:space/brainstorm",
+    authorizeApi,
+    asyncHandler(brainstormUsingAi)
   );
   router.get("/note/:space/id/:id", authorizeApi, asyncHandler(getNoteById));
   router.get(

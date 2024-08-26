@@ -9,7 +9,12 @@ const selfRealm = 100;
 
 export const updateNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const note: any = await Helper.updateNote(req.params.space, req.query.reload, req.body, userId);
+  const note: any = await Helper.updateNote(
+    req.params.space,
+    req.query.reload,
+    req.body,
+    userId
+  );
   res.status(200);
   res.send(note);
   res.end();
@@ -60,7 +65,12 @@ export const getNoteByReference = async (req: any, res: any) => {
 
 export const searchNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const note: any = await Helper.searchNote(req.params.space, req.body.text, req.body.textList, req.body.searchPref);
+  const note: any = await Helper.searchNote(
+    req.params.space,
+    req.body.text,
+    req.body.textList,
+    req.body.searchPref
+  );
   res.status(200);
   res.send(note);
   res.end();
@@ -68,7 +78,11 @@ export const searchNote = async (req: any, res: any) => {
 
 export const getNotesByMetadataValue = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const note: any = await Helper.getNotesByMetadataValue(req.params.space, req.params.metadataId, req.body);
+  const note: any = await Helper.getNotesByMetadataValue(
+    req.params.space,
+    req.params.metadataId,
+    req.body
+  );
   res.status(200);
   res.send(note);
   res.end();
@@ -90,21 +104,32 @@ export const deleteNote = async (req: any, res: any) => {
   res.end();
 };
 
-
 export const deleteNoteByReference = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const outcome: any = await Helper.deleteNoteByReference(req.params.space, req.params.reference);
+  const outcome: any = await Helper.deleteNoteByReference(
+    req.params.space,
+    req.params.reference
+  );
   res.status(200);
   res.send(outcome);
   res.end();
 };
 
-
-
 export const deleteNoteByReferenceList = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const outcome: any = await Helper.deleteNoteByReferenceList(req.params.space, req.body);
+  const outcome: any = await Helper.deleteNoteByReferenceList(
+    req.params.space,
+    req.body
+  );
   res.status(200);
   res.send(outcome);
+  res.end();
+};
+
+export const brainstormUsingAi = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const text: any = await Helper.brainstormUsingAi(req.params.space, req.body);
+  res.status(200);
+  res.send({ text });
   res.end();
 };
