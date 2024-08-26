@@ -558,6 +558,5 @@ export const brainstormUsingAi = async (
     text: string;
   }
 ) => {
-  console.log(payload);
   return payload.text;
 };
