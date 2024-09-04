@@ -2,7 +2,7 @@ import { asyncHandler } from "../../handler";
 import { authorizeApi } from "../../middlewares";
 import {
   updateNote,
-  getNote,
+  createNote,
   searchNote,
   getNoteDictionary,
   getNoteById,
@@ -20,6 +20,7 @@ const selfRealm = 100;
 
 module.exports = function (router: any) {
   router.put("/note/:space", authorizeApi, asyncHandler(updateNote));
+  router.post("/note/:space", authorizeApi, asyncHandler(createNote));
   // router.get("/note/:space", authorizeApi, asyncHandler(getNote));
   router.post("/note/:space/search", authorizeApi, asyncHandler(searchNote));
   router.post(

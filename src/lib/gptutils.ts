@@ -19,10 +19,9 @@ export const predict = async (payload: any) => {
         response.data?.data?.choices.length > 0 &&
         response.data?.data?.choices[0]?.message?.content
       ) {
-        const jsonContent = response.data?.data?.choices[0]?.message?.content
+        return response.data?.data?.choices[0]?.message?.content
           .replace(/```json/g, "")
           .replace(/```/g, "");
-        return JSON.parse(jsonContent) || null;
       }
     }
   } catch (err) {

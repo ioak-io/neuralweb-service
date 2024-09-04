@@ -1,15 +1,21 @@
-import bcrypt from "bcrypt";
-import { validateMandatoryFields } from "../../lib/validation";
-
-import { userSchema, userCollection } from "../user/model";
 import * as Helper from "./helper";
-import { getCollection } from "../../lib/dbutils";
-
-const selfRealm = 100;
 
 export const updateNote = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const note: any = await Helper.updateNote(
+    req.params.space,
+    req.query.reload,
+    req.body,
+    userId
+  );
+  res.status(200);
+  res.send(note);
+  res.end();
+};
+
+export const createNote = async (req: any, res: any) => {
+  const userId = req.user.user_id;
+  const note: any = await Helper.createNote(
     req.params.space,
     req.query.reload,
     req.body,
