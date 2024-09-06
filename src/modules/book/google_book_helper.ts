@@ -1,7 +1,7 @@
 import axios from "axios";
 import { isEmptyOrSpaces } from "../../lib/Utils";
 
-const GOOGLE_BOOKS_API_KEY = "AIzaSyCUM3NDW_5h9faRaAliTVJ1IOnCQsDIyzs";
+const GOOGLE_BOOKS_API_KEY = "abcd";
 
 /**
  * Searches for the most relevant book based on book name and author name using the Google Books API.

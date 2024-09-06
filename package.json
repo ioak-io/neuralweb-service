@@ -35,6 +35,8 @@
     "mongoose": "^8.0.3",
     "multer": "^1.4.5-lts.1",
     "papaparse": "^5.3.14",
+    "pdf-lib": "^1.17.1",
+    "pdf-parse": "^1.1.1",
     "requests": "^0.3.0",
     "uuid": "^9.0.1"
   },
@@ -42,6 +44,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/crypto-js": "^4.2.1",
     "@types/jsonwebtoken": "^9.0.5",
+    "@types/pdf-parse": "^1.1.4",
     "@types/uuid": "^9.0.7",
     "@types/webpack-env": "^1.18.4",
     "clean-webpack-plugin": "^4.0.0",

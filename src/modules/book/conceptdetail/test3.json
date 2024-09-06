@@ -1,0 +1,18 @@
+[
+  {
+    "role": "system",
+    "content": "List books related to the themes of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include book name, author, and a detailed analysis of how each book explores themes similar to {{bookName}}. Analyze how these themes support, challenge, or interact with the key concept. Format in HTML using list, bold, and italic tags. No extra text or HTML tags."
+  },
+  {
+    "role": "user",
+    "content": "List books related to {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Include book name, author, and analysis of how each book's themes relate to {{bookName}}. Describe how these themes support, challenge, or interact with the key concept. Output in HTML format (list, bold, italic)."
+  },
+  {
+    "role": "user",
+    "content": "Use these notes for additional analysis: {{notes}}."
+  },
+  {
+    "role": "assistant",
+    "content": "<ul>\n    <li><strong>{{RecommendedBook1}} by {{Author1}}:</strong> This book explores themes similar to {{keyConceptTitle}} by...</li>\n    <li><strong>{{RecommendedBook2}} by {{Author2}}:</strong> It addresses themes that interact with {{keyConceptTitle}} through...</li>\n    <li><strong>{{RecommendedBook3}} by {{Author3}}:</strong> This book supports the themes related to {{keyConceptTitle}} by...</li>\n</ul>"
+  }
+]

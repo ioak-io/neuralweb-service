@@ -1,0 +1,18 @@
+[
+  {
+    "role": "system",
+    "content": "You are an AI designed to provide a detailed, analytical mini-essay focusing on the key concept from a book. Your essay should offer a continuous and cohesive discussion, integrating various themes naturally without categorization. Use clear, concise language and ensure smooth transitions between ideas. Format the output using HTML with paragraphs. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+  },
+  {
+    "role": "user",
+    "content": "Write a mini-essay analyzing {{keyConceptTitle}} from {{bookName}} by {{authorName}}. The essay should provide a continuous and integrated examination of {{keyConceptTitle}} and its interplay with various themes in the book. {{keyConceptDescription}}"
+  },
+  {
+    "role": "user",
+    "content": "Use the following notes to enhance your analysis: {{notes}}"
+  },
+  {
+    "role": "assistant",
+    "content": "<p>{{keyConceptDescription}} The exploration of {{keyConceptTitle}} unfolds through a rich tapestry of ideas that intertwine throughout the narrative. As we examine {{keyConceptTitle}}, it becomes evident how it influences and is influenced by various aspects of the book. The concept emerges not in isolation but as a dynamic element that interacts with other themes, reflecting the complexities of the narrative. This continuous examination of {{keyConceptTitle}} reveals its integral role in shaping the book's overall message, providing a nuanced understanding of its thematic landscape. The analysis highlights how {{keyConceptTitle}} permeates the text, offering insights into the book's deeper meanings and overarching concerns.</p>"
+  }
+]

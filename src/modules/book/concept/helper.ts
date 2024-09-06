@@ -36,10 +36,11 @@ export const generateConcepts = async (space: string, bookref: string) => {
         filter: {
           // _id: item._id,
           bookref,
-          name: gptResponse[i],
+          name: gptResponse[i].title,
         },
         update: {
-          name: gptResponse[i],
+          name: gptResponse[i].title,
+          description: gptResponse[i].description,
           reference: await nextval("conceptId", bookref, space),
         },
         upsert: true,

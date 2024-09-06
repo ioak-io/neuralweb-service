@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const bookConceptSchema = new Schema(
   {
     name: { type: String },
+    description: { type: String },
     reference: { type: String },
     bookref: { type: String },
   },

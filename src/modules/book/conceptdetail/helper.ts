@@ -4,6 +4,7 @@ const ONEAUTH_API = process.env.ONEAUTH_API || "http://localhost:4010/api";
 import { conceptDetailCollection, conceptDetailSchema } from "./model";
 import * as BookHelper from "../helper";
 import * as ConceptHelper from "../concept/helper";
+import * as NoteHelper from "../../note/helper";
 import { nextval } from "../../sequence/service";
 import * as Gptutils from "../../../lib/gptutils";
 import { getConceptSectionPrompt } from "./prompt";
@@ -28,6 +29,9 @@ export const createConceptDetail = async (
     bookref,
     conceptref
   );
+  const notes = await NoteHelper.getNoteByBookref(space, bookref);
+  const notesList: string[] = [];
+  notes.forEach((item: any) => notesList.push(item.content));
 
   const gptResponseText = await Gptutils.predict(
     getConceptSectionPrompt(
@@ -35,8 +39,8 @@ export const createConceptDetail = async (
       book.title,
       book.primaryAuthor,
       concept.name,
-      payload.sectionTitle,
-      payload.sectionDescription
+      concept.description,
+      notesList
     )
   );
   console.log(gptResponseText);
