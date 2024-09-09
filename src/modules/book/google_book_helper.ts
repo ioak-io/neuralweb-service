@@ -1,7 +1,8 @@
 import axios from "axios";
 import { isEmptyOrSpaces } from "../../lib/Utils";
 
-const GOOGLE_BOOKS_API_KEY = "abcd";
+const GOOGLE_BOOKS_API_KEY = "AIzaSyCUM3NDW_5h9faRaAliTVJ1IOnCQsDIyzs";
+const WIKIPEDIA_API_URL = "https://en.wikipedia.org/w/api.php";
 
 /**
  * Searches for the most relevant book based on book name and author name using the Google Books API.
@@ -108,6 +109,85 @@ export const getMostRelevantBookMetadata = async (
     };
   } catch (error) {
     console.error("Error retrieving book metadata:", error);
+    return null;
+  }
+};
+
+export const getBookMetadataByIsbn = async (
+  isbn: string
+): Promise<any | null> => {
+  const query = `isbn:${isbn}`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_BOOKS_API_KEY}`;
+
+  try {
+    const response = await axios.get(url);
+    const items = response.data.items || [];
+
+    if (items.length === 0) {
+      return null;
+    }
+
+    // Extract metadata from the first (and only) item
+    const item = items[0];
+    console.log(item.volumeInfo.imageLinks);
+    const metadata = {
+      title: item.volumeInfo.title,
+      description: item.volumeInfo.description,
+      shortDescription: item.volumeInfo.shortDescription || "",
+      isbn:
+        item.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_13"
+        )?.identifier ||
+        item.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_10"
+        )?.identifier,
+      pageCount: item.volumeInfo.pageCount,
+      categories: item.volumeInfo.categories || [],
+      publisher: item.volumeInfo.publisher,
+      publishedDate: item.volumeInfo.publishedDate,
+      thumbnail: item.volumeInfo.imageLinks?.thumbnail,
+      authors: item.volumeInfo.authors,
+      primaryAuthor: item.volumeInfo.authors?.[0],
+      chapterCount: item.volumeInfo.tableOfContents?.length || 0, // If tableOfContents is available
+    };
+
+    // Get author information if available
+    // if (metadata.primaryAuthor) {
+    //   const authorBio = await getAuthorInfo(metadata.primaryAuthor);
+    //   return { ...metadata, authorBio };
+    // }
+
+    return metadata;
+  } catch (error) {
+    console.error("Error retrieving book metadata:", error);
+    return null;
+  }
+};
+// Function to get author information from Wikipedia
+const getAuthorInfo = async (authorName: string): Promise<string | null> => {
+  try {
+    const response = await axios.get(WIKIPEDIA_API_URL, {
+      params: {
+        action: "query",
+        format: "json",
+        titles: authorName,
+        prop: "extracts",
+        exintro: true,
+        explaintext: true,
+        redirects: 1,
+      },
+    });
+
+    const pages = response.data.query.pages;
+    const page: any = Object.values(pages)[0];
+
+    if (page?.extract) {
+      return page.extract;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error retrieving author information:", error);
     return null;
   }
 };

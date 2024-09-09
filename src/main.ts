@@ -117,6 +117,7 @@ app.use((_: any, res: any) => {
 });
 
 app.use((err: any, req: any, res: any, next: any) => {
+  console.error('Error:', err);
   res.status(500).send(err.stack);
   // .send(err.name + ": " + err.message + "\n\nDetails:\n" + err.stack);
 });

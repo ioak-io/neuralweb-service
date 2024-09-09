@@ -78,6 +78,19 @@ export const createBook = async (
   { book, meta }: any,
   userId?: string
 ) => {
+  if (book.isManaged) {
+    const bookMetadata = await GoogleBookHelper.getBookMetadataByIsbn(
+      book.isbn
+    );
+    console.log(bookMetadata, book.isbn)
+    if (bookMetadata) {
+      book.thumbnail = bookMetadata.thumbnail;
+      book.publisher = bookMetadata.publisher;
+      // book.shortDescription = book.description;
+      // book.description = bookMetadata.description;
+      book.publishedDate = bookMetadata.publishedDate;
+    }
+  }
   const model = getCollection(space, bookCollection, bookSchema);
   let response = null;
   response = await model.create({

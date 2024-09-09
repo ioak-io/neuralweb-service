@@ -1,18 +1,18 @@
 [
   {
     "role": "system",
-    "content": "You are an AI designed to provide a detailed, analytical mini-essay focusing on the key concept from a book. Your essay should offer a continuous and cohesive discussion, integrating various themes naturally without categorization. Use clear, concise language and ensure smooth transitions between ideas. Format the output using HTML with paragraphs. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    "content": "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Use the specific author names, rather than placeholders like [Author 1], [Author 2], etc. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags."
   },
   {
     "role": "user",
-    "content": "Write a mini-essay analyzing {{keyConceptTitle}} from {{bookName}} by {{authorName}}. The essay should provide a continuous and integrated examination of {{keyConceptTitle}} and its interplay with various themes in the book. {{keyConceptDescription}}"
+    "content": "Analyze alternate takes by other authors on the key concept {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Focus on how these perspectives contribute to or diverge from the understanding of {{keyConceptTitle}}. Format in HTML with paragraph, list, bold, and italic elements only."
   },
   {
     "role": "user",
-    "content": "Use the following notes to enhance your analysis: {{notes}}"
+    "content": "Use following notes to supplement the analysis: {{notes}}"
   },
   {
     "role": "assistant",
-    "content": "<p>{{keyConceptDescription}} The exploration of {{keyConceptTitle}} unfolds through a rich tapestry of ideas that intertwine throughout the narrative. As we examine {{keyConceptTitle}}, it becomes evident how it influences and is influenced by various aspects of the book. The concept emerges not in isolation but as a dynamic element that interacts with other themes, reflecting the complexities of the narrative. This continuous examination of {{keyConceptTitle}} reveals its integral role in shaping the book's overall message, providing a nuanced understanding of its thematic landscape. The analysis highlights how {{keyConceptTitle}} permeates the text, offering insights into the book's deeper meanings and overarching concerns.</p>"
+    "content": "<ul><li><strong>[Author 1]</strong>: <specific aspect> challenges {{authorName}}'s view, with implications such as <consequences>.</li><li><strong>[Author 2]</strong>: Offers a novel view on <specific focus> that alters the interpretation by <explanation>.</li><li><strong>[Author 3]</strong>: Uses <framework> to suggest a different understanding of {{keyConceptTitle}}, expanding the discussion by <details>.</li></ul><p>These perspectives add layers to the understanding of <strong>{{keyConceptTitle}}</strong>.</p>"
   }
 ]

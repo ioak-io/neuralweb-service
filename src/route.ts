@@ -29,5 +29,6 @@ require("./modules/stopwords/route")(router);
 require("./modules/keywords/route")(router);
 require("./modules/label/route")(router);
 require("./modules/report/route")(router);
+require("./modules/flashcard/route")(router);
 
 module.exports = router;

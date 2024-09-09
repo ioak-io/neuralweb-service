@@ -189,7 +189,7 @@ const _SUMMARY_PROMPT = {
     {
       role: "user",
       content:
-        "Summarize {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}",
+        "Summarize the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}",
     },
     {
       role: "user",
@@ -198,7 +198,7 @@ const _SUMMARY_PROMPT = {
     {
       role: "assistant",
       content:
-        "<p><strong>{{keyConceptTitle}}</strong> covers...</p>\n<p>{{keyConceptDescription}}</p>\n<p>The key points are as follows:</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, {{keyConceptTitle}} provides a thorough understanding of...</p>",
+        "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, this concept provides a thorough understanding of...</p>",
     },
   ],
   temperature: 1,
@@ -214,7 +214,7 @@ const _THEMES_PROMPT = {
     {
       role: "system",
       content:
-        "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid including extra HTML tags or instructions.",
+        "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid including extra HTML tags or instructions. Ensure theme titles are not prefixed with numbers or labels like 'Theme 1', 'Theme 2', etc.",
     },
     {
       role: "user",
@@ -228,7 +228,7 @@ const _THEMES_PROMPT = {
     {
       role: "assistant",
       content:
-        "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> delves into <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p>\n\n<p>The themes related to {{keyConceptTitle}} include:</p>\n\n<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>\n\n<p>Each theme contributes to a deeper understanding of {{keyConceptTitle}} within the context of the book.</p>",
+        "<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>",
     },
   ],
   temperature: 1,
@@ -244,7 +244,7 @@ const _ALTERNATE_TAKES_PROMPT = {
     {
       role: "system",
       content:
-        "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags.",
+        "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Use the specific author names, rather than placeholders like [Author 1], [Author 2], etc. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags.",
     },
     {
       role: "user",
@@ -258,9 +258,10 @@ const _ALTERNATE_TAKES_PROMPT = {
     {
       role: "assistant",
       content:
-        "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> introduces <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p><p>Alternate perspectives include:</p><ul><li><strong>[Author 1]</strong>: <specific aspect> challenges {{authorName}}'s view, with implications such as <consequences>.</li><li><strong>[Author 2]</strong>: Offers a novel view on <specific focus> that alters the interpretation by <explanation>.</li><li><strong>[Author 3]</strong>: Uses <framework> to suggest a different understanding of {{keyConceptTitle}}, expanding the discussion by <details>.</li></ul><p>These perspectives add layers to the understanding of <strong>{{keyConceptTitle}}</strong>.</p>",
+        "<ul><li><strong>{{AuthorName1}}</strong>: <specific aspect> challenges {{authorName}}'s view, with implications such as <consequences>.</li><li><strong>{{AuthorName2}}</strong>: Offers a novel view on <specific focus> that alters the interpretation by <explanation>.</li><li><strong>{{AuthorName3}}</strong>: Uses <framework> to suggest a different understanding of {{keyConceptTitle}}, expanding the discussion by <details>.</li></ul>",
     },
   ],
+
   temperature: 1,
   max_tokens: 4096,
   top_p: 1,

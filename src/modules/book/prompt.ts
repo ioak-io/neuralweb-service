@@ -33,7 +33,7 @@ const _BOOK_DETAIL_PROMPT = {
     {
       role: "system",
       content:
-        "If the book is valid, return only a JSON object with 'categories' (as an array), 'description', 'fullBookName', 'title', 'pageCount', 'authors' (as an array), 'primaryAuthor', 'publishedDate', 'isbn'. The 'authors' field should be an array ordered by the popularity of the authors. If the book cannot be found, return only a JSON object with 'errorDescription'. The response must be in JSON format only, without any additional text.",
+        "If the book is valid, return only a JSON object with 'categories' (as an array), 'description' (a detailed description of 2 to 5 paragraphs), 'shortDescription' (a single paragraph summary), 'fullBookName', 'title', 'pageCount', 'authors' (as an array), 'primaryAuthor', 'publishedDate', 'isbn', and 'authorInfo' (a paragraph of information about the author's major works and achievements). The 'authors' field should be an array ordered by the popularity of the authors. If the book cannot be found, return only a JSON object with 'errorDescription'. The response must be in JSON format only, without any additional text.",
     },
     {
       role: "user",
@@ -41,7 +41,6 @@ const _BOOK_DETAIL_PROMPT = {
         "Please find the details for the book '{{bookName}}' authored by '{{authorName}}'.",
     },
   ],
-
   temperature: 1,
   max_tokens: 4096,
   top_p: 1,
