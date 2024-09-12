@@ -3,7 +3,8 @@ import { cloneDeep } from "lodash";
 
 const _MODEL_NAME_GPT3 = "gpt-3.5-turbo";
 const _MODEL_NAME_GPT4 = "gpt-4o";
-const _MODEL_NAME = _MODEL_NAME_GPT4;
+const _MODEL_NAME_GPT4_MINI = "gpt-4o-mini";
+const _MODEL_NAME = process.env.CHATGPT_MODEL_NAME || "gpt-4o-mini";
 
 export const getBookConceptsPrompt = (bookName: string, authorName: string) => {
   const prompt = cloneDeep(_BOOK_CONCEPTS_PROMPT);
@@ -24,12 +25,12 @@ const _BOOK_CONCEPTS_PROMPT = {
     {
       role: "system",
       content:
-        "You are an AI assistant that generates lists of concepts from books. Your task is to read through a book and extract key concepts covered, ensuring that the output captures as much of the book content as possible in a clear and concise manner. The output should be a JSON array of objects, each containing a title and a short description of the concept. If bookName and authorName are provided, reference them without quoting. Otherwise, do not include specific references to any book or author.",
+        "You are an AI assistant tasked with generating lists of key concepts from books. Your goal is to extract important concepts, providing detailed yet concise descriptions for each. Each concept description should fit into a single paragraph. Output the results as a JSON array, where each object contains a 'title' and a 'description' of the concept. If 'bookName' and 'authorName' are provided, include them in the context, but do not quote them. Avoid HTML content in the output.",
     },
     {
       role: "user",
       content:
-        "Generate a list of concepts covered in the book '{{bookName}}' by '{{authorName}}'. The concepts should cover as much of the content as possible while remaining clear and concise. The output should be in the form of a JSON array of objects, with each object containing a 'title' and a 'description' of the concept.",
+        "Generate a list of key concepts covered in the book '{{bookName}}' by '{{authorName}}'. Each concept should be described in a detailed yet concise paragraph. Provide the output as a JSON array of objects, with each object containing a 'title' and a 'description' of the concept.",
     },
   ],
   temperature: 1,
@@ -41,3 +42,4 @@ const _BOOK_CONCEPTS_PROMPT = {
 
 // - section 3: explain it to a kid
 // - section 4: few questions a kid (with a very fresh perspective and a playful attitude) would ask that adults (with a very serious approach to the subject) would overlook. and possible for the same
+

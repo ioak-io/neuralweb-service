@@ -18,7 +18,7 @@ export const updateConceptDetail = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const conceptDetail: any = await Helper.updateConceptDetail(
     req.params.space,
-    req.query.reload,
+    req.params.id,
     req.body,
     userId
   );
@@ -34,6 +34,21 @@ export const getConceptDetailsByBookReference = async (req: any, res: any) => {
     req.params.bookref,
     req.params.conceptref
   );
+  res.status(200);
+  res.send(conceptDetail);
+  res.end();
+};
+
+export const getConceptDetailsByBookReferenceShortform = async (
+  req: any,
+  res: any
+) => {
+  const userId = req.user.user_id;
+  const conceptDetail: any =
+    await Helper.getConceptDetailsByBookReferenceShortform(
+      req.params.space,
+      req.params.bookref
+    );
   res.status(200);
   res.send(conceptDetail);
   res.end();

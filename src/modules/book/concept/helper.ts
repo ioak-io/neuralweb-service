@@ -3,16 +3,18 @@ import { cloneDeep, intersection } from "lodash";
 const ONEAUTH_API = process.env.ONEAUTH_API || "http://localhost:4010/api";
 import { bookConceptCollection, bookConceptSchema } from "./model";
 import * as BookHelper from "../helper";
+import * as NoteHelper from "../../note/helper";
+import * as ConceptdetailHelper from "../conceptdetail/helper";
 import { nextval } from "../../sequence/service";
 import * as Gptutils from "../../../lib/gptutils";
 import { getBookConceptsPrompt } from "./prompt";
 const { getCollection } = require("../../../lib/dbutils");
 
 const AI_API = process.env.AI_API || "http://localhost:5003/api";
+const SIMILARITY_ALGORITHM = "similarity";
 
 export const generateConcepts = async (space: string, bookref: string) => {
   const book = await BookHelper.getBookByReference(space, bookref);
-  console.log(book?.isbn);
   if (!book || !book.isManaged) {
     return null;
   }
@@ -47,7 +49,17 @@ export const generateConcepts = async (space: string, bookref: string) => {
       },
     });
   }
-  return await model.bulkWrite(_payload);
+  await model.deleteMany({ bookref });
+  await model.bulkWrite(_payload);
+  const concepts = await model.find({ bookref });
+
+  await ConceptdetailHelper.createShortform(space, bookref);
+
+  for (let i = 0; i < concepts.length; i++) {
+    // await _ai_populate_for_concept(space, bookref, concepts[i].reference);
+  }
+
+  return concepts;
 };
 
 export const createBookConcept = async (
@@ -95,6 +107,23 @@ export const updateBookConcept = async (
   return {
     bookConcept,
   };
+};
+
+const _ai_populate_for_concept = async (
+  space: string,
+  bookref: string,
+  reference: string
+) => {
+  console.log(bookref, reference);
+  try {
+    await axios.get(
+      `${AI_API}/${SIMILARITY_ALGORITHM}/${space}/populate-concept/${bookref}/${reference}`,
+      {}
+    );
+    console.log("populated keywords for " + bookref + ", " + reference);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 export const getBookConcept = async (space: string) => {

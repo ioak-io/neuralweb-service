@@ -3,7 +3,7 @@ import { cloneDeep } from "lodash";
 
 const _MODEL_NAME_GPT3 = "gpt-3.5-turbo";
 const _MODEL_NAME_GPT4 = "gpt-4o";
-const _MODEL_NAME = _MODEL_NAME_GPT4;
+const _MODEL_NAME = process.env.CHATGPT_MODEL_NAME || "gpt-4o-mini";;
 
 export const getBrainstormPrompt = (
   useBookMode: boolean,
@@ -25,6 +25,7 @@ export const getBrainstormPrompt = (
       authorName,
       modelName: _MODEL_NAME,
     });
+    console.log(brainstormPrompt)
   return brainstormPrompt;
 };
 

@@ -20,6 +20,8 @@ require("./modules/book/chapter/route")(router);
 require("./modules/book/chapterdetail/route")(router);
 require("./modules/book/concept/route")(router);
 require("./modules/book/conceptdetail/route")(router);
+require("./modules/book/shortform/route")(router);
+require("./modules/book/extract/route")(router);
 require("./modules/import/route")(router);
 require("./modules/import/log/route")(router);
 require("./modules/colorfilter/route")(router);

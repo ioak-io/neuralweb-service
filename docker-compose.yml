@@ -16,6 +16,7 @@ services:
       ONEAUTH_API_KEY: 78b4e61d-de91-4700-9404-3a9a0924ba8a
       DODO_URL: https://api.ioak.io:8120
       DODO_KEY: a53dc337-a203-4980-bfc8-12f19acddd26
+      CHATGPT_MODEL_NAME: gpt-4o-mini
       PORT: 8025
     ports:
       - 8025:8025

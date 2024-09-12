@@ -3,7 +3,8 @@ import { cloneDeep } from "lodash";
 
 const _MODEL_NAME_GPT3 = "gpt-3.5-turbo";
 const _MODEL_NAME_GPT4 = "gpt-4o";
-const _MODEL_NAME = _MODEL_NAME_GPT4;
+const _MODEL_NAME_GPT4_MINI = "gpt-4o-mini";
+const _MODEL_NAME = process.env.CHATGPT_MODEL_NAME || "gpt-4o-mini";
 
 const _CONCEPT_SECTION_DEFINITIONS: {
   [key: string]: { sectionTitle: string; sectionDescription: string };
@@ -40,6 +41,55 @@ const _CONCEPT_SECTION_DEFINITIONS: {
   },
 };
 
+export const getBookShortFormPrompt = (
+  bookName: string,
+  authorName: string,
+  notesList: string[],
+  keyInsightsList: string[]
+) => {
+  const keyInsights = keyInsightsList.join(", ");
+  const notes = notesList.join(", ");
+  const prompt = cloneDeep(_SHORTFORM_PROMPT);
+  for (let i = 0; i < prompt.messages.length; i++) {
+    prompt.messages[i].content = Handlebars.compile(prompt.messages[i].content)(
+      {
+        bookName,
+        authorName,
+        notes,
+        keyInsights,
+      }
+    );
+  }
+  console.log(prompt);
+  return prompt;
+};
+
+const _SHORTFORM_PROMPT = {
+  model: _MODEL_NAME,
+  messages: [
+    {
+      role: "system",
+      content:
+        'You are an AI assistant tasked with creating a comprehensive analysis of a book in JSON format. The output should contain only valid JSON without any extra text, comments, or explanations. Follow the structure below:\n\n{\n  "bookOverview": {\n    "overview": "string",\n    "authorInfo": "string"\n  },\n  "keyInsights": [\n    {"title": "string", "description": "html", "summary": "string"},\n    {"title": "string", "description": "html", "summary": "string"},\n    ...\n  ]\n}.\n\nInstructions:\n\n1. For the "bookOverview":\n- Provide a detailed summary of the book\'s main premise and significance (4-5 sentences).\n- Mention the author\'s background and expertise relevant to the book\'s topic (2-3 sentences).\n\n2. For "keyInsights":\n- Each key insight should have a title and a detailed description.\n- The description must be in HTML format, with each paragraph enclosed within <p> tags. Only <p>, <b>, and <i> tags are allowed.\n- The description should include an in-depth explanation of the insight (4-5 paragraphs), practical examples or applications (2-3 paragraphs), and any relevant statistics or research mentioned in the book.\n\nGuidelines:\n- Ensure that the total word count of the output is between 2500 and 3000 words.\n- Provide only the JSON output with no additional text.',
+    },
+    {
+      role: "assistant",
+      content:
+        "Ensure that each key insight is elaborated with multiple paragraphs and detailed explanations, with each paragraph enclosed in <p> tags. For each key insight in {{keyInsights}}, provide a comprehensive analysis that includes examples, applications, and supporting evidence to meet the 2500-3000 word range. Output only valid JSON.",
+    },
+    {
+      role: "user",
+      content:
+        "The book is '{{bookName}}' by {{authorName}}. The key insights are: {{keyInsights}}.",
+    },
+  ],
+  temperature: 1,
+  max_tokens: 4096,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+};
+
 export const getConceptSectionPrompt = (
   type: string,
   bookName: string,
@@ -49,10 +99,29 @@ export const getConceptSectionPrompt = (
   noteList: string[]
 ) => {
   const notes = noteList.join(" ");
+  console.log("****", noteList.length);
   switch (type) {
     case "summary":
       return _getPrompt(
         _SUMMARY_PROMPT,
+        bookName,
+        authorName,
+        keyConceptTitle,
+        keyConceptDescription,
+        notes
+      );
+    case "central_insights":
+      return _getPrompt(
+        _CENTRAL_INSIGHTS,
+        bookName,
+        authorName,
+        keyConceptTitle,
+        keyConceptDescription,
+        notes
+      );
+    case "mini_essay":
+      return _getPrompt(
+        _MINI_ESSAY_PROMPT,
         bookName,
         authorName,
         keyConceptTitle,
@@ -80,15 +149,6 @@ export const getConceptSectionPrompt = (
     case "further_references":
       return _getPrompt(
         _FURTHER_REFERENCES_PROMPT,
-        bookName,
-        authorName,
-        keyConceptTitle,
-        keyConceptDescription,
-        notes
-      );
-    case "mini_essay":
-      return _getPrompt(
-        _MINI_ESSAY_PROMPT,
         bookName,
         authorName,
         keyConceptTitle,
@@ -184,23 +244,25 @@ const _SUMMARY_PROMPT = {
     {
       role: "system",
       content:
-        "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. Ensure the summary is informative and specific, covering the main ideas and arguments about the key concept. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies.",
+        "You are an AI designed to provide a detailed, logically structured, and informative explanation of a key concept explored in a book. Ensure that your explanation directly describes the key concept without framing it as third-person commentary or narrative. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies.",
     },
     {
       role: "user",
       content:
-        "Summarize the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}",
+        "Explain the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}",
     },
     {
       role: "user",
-      content: "Use the following notes to supplement your summary: {{notes}}",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
     },
     {
       role: "assistant",
       content:
-        "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, this concept provides a thorough understanding of...</p>",
+        "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Explanation of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Explanation of the second key point, using both book knowledge and notes.</li>\n    <li>Explanation of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>This concept offers a thorough understanding of...</p>",
     },
   ],
+
   temperature: 1,
   max_tokens: 4096,
   top_p: 1,
@@ -214,7 +276,7 @@ const _THEMES_PROMPT = {
     {
       role: "system",
       content:
-        "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid including extra HTML tags or instructions. Ensure theme titles are not prefixed with numbers or labels like 'Theme 1', 'Theme 2', etc.",
+        "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid third-person commentary or narrative style. Do not include extra HTML tags or instructions. Present theme titles plainly, without numbers or labels like 'Theme 1', 'Theme 2', etc.",
     },
     {
       role: "user",
@@ -223,7 +285,8 @@ const _THEMES_PROMPT = {
     },
     {
       role: "user",
-      content: "Use the following notes for additional analysis: {{notes}}.",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
     },
     {
       role: "assistant",
@@ -244,7 +307,7 @@ const _ALTERNATE_TAKES_PROMPT = {
     {
       role: "system",
       content:
-        "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Use the specific author names, rather than placeholders like [Author 1], [Author 2], etc. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags.",
+        "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Use the specific author names, rather than placeholders like [Author 1], [Author 2], etc. Ensure a critical, nuanced examination of each viewpoint. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags.",
     },
     {
       role: "user",
@@ -253,7 +316,8 @@ const _ALTERNATE_TAKES_PROMPT = {
     },
     {
       role: "user",
-      content: "Use following notes to supplement the analysis: {{notes}}",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
     },
     {
       role: "assistant",
@@ -275,7 +339,7 @@ const _FURTHER_REFERENCES_PROMPT = {
     {
       role: "system",
       content:
-        "List books related to the themes of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include book name, author, and a detailed analysis of how each book explores themes similar to {{bookName}}. Analyze how these themes support, challenge, or interact with the key concept. Format in HTML using list, bold, and italic tags. No extra text or HTML tags.",
+        "List books related to the themes of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include book name, author, and a detailed analysis of how each book explores themes similar to {{bookName}}. Analyze how these themes support, challenge, or interact with the key concept. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Format in HTML using list, bold, and italic tags. No extra text or HTML tags.",
     },
     {
       role: "user",
@@ -284,7 +348,8 @@ const _FURTHER_REFERENCES_PROMPT = {
     },
     {
       role: "user",
-      content: "Use these notes for additional analysis: {{notes}}.",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
     },
     {
       role: "assistant",
@@ -306,16 +371,48 @@ const _MINI_ESSAY_PROMPT = {
     {
       role: "system",
       content:
-        "Provide a detailed, continuous mini-essay on {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Integrate themes naturally, use clear language with smooth transitions, and format the output in HTML paragraphs. Exclude extraneous tags or text, and avoid self-references and apologies.",
+        "Provide a comprehensive explanation of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Present the concept directly as it would be articulated in the book. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Avoid commentary or third-person narrative, and instead, deliver the information in a clear, descriptive manner. Ensure that each paragraph is enclosed within <p> tags and that the explanation integrates related themes naturally and flows continuously. Exclude unnecessary tags, self-references, or apologies.",
     },
     {
       role: "user",
       content:
-        "Analyze {{keyConceptTitle}} based on {{keyConceptDescription}}. Connect it with other themes in the book.",
+        "Describe {{keyConceptTitle}} based on {{keyConceptDescription}}. Illustrate its connections with other themes in the book directly and clearly.",
     },
     {
       role: "user",
-      content: "Use following notes to supplement the analysis: {{notes}}",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
+    },
+  ],
+  temperature: 1,
+  max_tokens: 4096,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+};
+
+const _CENTRAL_INSIGHTS = {
+  model: _MODEL_NAME,
+  messages: [
+    {
+      role: "system",
+      content:
+        "Describe key textual elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Present each element with an HTML <b> tag for the title followed by the exact text from the book, including specific details and quotes. After each quote, provide a detailed supplementary explanation in an HTML <p> tag that includes various perspectives and significant developments related to the key concept. Ensure comprehensive coverage by integrating different facets and changes impacting the concept. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Use HTML <p> tags for each section and <b> tags for titles, and avoid any prefixes or additional formatting issues.",
+    },
+    {
+      role: "user",
+      content:
+        "List key elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Provide the exact text from the book, including specific details or quotes, followed by detailed supplementary explanations in HTML <p> tags. Ensure that the explanations cover different perspectives, key events, and significant developments related to the key concept. Avoid prefixes like 'html' and any interpretive commentary or citation details.",
+    },
+    {
+      role: "user",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
+    },
+    {
+      role: "assistant",
+      content:
+        "<p><b>{KeyTextualElement1Title}:</b> {ExactTextFromBook1}</p>\n<p>{DetailedExplanation1}</p>\n<p><b>{KeyTextualElement2Title}:</b> {ExactTextFromBook2}</p>\n<p>{DetailedExplanation2}</p>\n<p><b>{KeyTextualElement3Title}:</b> {ExactTextFromBook3}</p>\n<p>{DetailedExplanation3}</p>",
     },
   ],
   temperature: 1,
@@ -331,7 +428,7 @@ const _EXPLAIN_TO_CHILD_PROMPT = {
     {
       role: "system",
       content:
-        "Explain {{keyConceptTitle}} from {{bookName}} by {{authorName}} in a way that's easy for a small child to understand. Use simple words, short sentences, and relatable examples. Make sure to format the response in HTML paragraphs, without extra tags or text, and avoid self-references and apologies.",
+        "Explain {{keyConceptTitle}} from {{bookName}} by {{authorName}} in a way that's easy for a small child to understand. Use simple words, short sentences, and relatable examples. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Make sure to format the response in HTML paragraphs, without extra tags or text, and avoid self-references and apologies.",
     },
     {
       role: "user",
@@ -340,7 +437,8 @@ const _EXPLAIN_TO_CHILD_PROMPT = {
     },
     {
       role: "user",
-      content: "Use these notes to help explain: {{notes}}",
+      content:
+        "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}",
     },
   ],
   temperature: 1,

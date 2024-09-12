@@ -7,6 +7,8 @@ import { nextval, resetval } from "../sequence/service";
 import * as GoogleBookHelper from "./google_book_helper";
 import { isEmptyOrSpaces } from "../../lib/Utils";
 import * as Gptutils from "../../lib/gptutils";
+import * as ConceptHelper from "./concept/helper";
+import * as ShortformHelper from "./shortform/helper";
 import { getBookDetailPrompt } from "./prompt";
 
 export const validateBook = async (
@@ -82,7 +84,7 @@ export const createBook = async (
     const bookMetadata = await GoogleBookHelper.getBookMetadataByIsbn(
       book.isbn
     );
-    console.log(bookMetadata, book.isbn)
+    console.log(bookMetadata, book.isbn);
     if (bookMetadata) {
       book.thumbnail = bookMetadata.thumbnail;
       book.publisher = bookMetadata.publisher;
@@ -98,6 +100,11 @@ export const createBook = async (
     reference: await nextval("bookId", undefined, space),
   });
 
+  const concepts = await ConceptHelper.generateConcepts(
+    space,
+    response.reference
+  );
+
   return response;
 
   // const chapterResponse = await BookChapterHelper.addChapters(
@@ -111,7 +118,7 @@ export const createBook = async (
 
 export const updateBook = async (
   space: string,
-  reload: string,
+  reload: boolean,
   data: any,
   userId?: string
 ) => {

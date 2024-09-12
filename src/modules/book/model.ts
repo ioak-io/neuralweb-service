@@ -8,6 +8,7 @@ const bookSchema = new Schema(
     reference: { type: String },
     description: { type: String },
     shortDescription: { type: String },
+    overview: { type: String },
     authors: { type: Array },
     primaryAuthor: { type: String },
     authorInfo: { type: String },

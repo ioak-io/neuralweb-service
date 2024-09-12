@@ -81,6 +81,24 @@
       "content": "<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>"
     }
   ],
+  "themes_v1.1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid third-person commentary or narrative style. Do not include extra HTML tags or instructions. Present theme titles plainly, without numbers or labels like 'Theme 1', 'Theme 2', etc."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} as context. Provide detailed examples of how each theme supports, challenges, or develops {{keyConceptTitle}}, ensuring an in-depth analysis in HTML format (paragraph, list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>"
+    }
+  ],
   "summary_v1.2": [
     {
       "role": "system",
@@ -130,6 +148,42 @@
     {
       "role": "assistant",
       "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, this concept provides a thorough understanding of...</p>"
+    }
+  ],
+  "summary_v1.4": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative explanation of a key concept explored in a book. Ensure that your explanation directly describes the key concept without framing it as third-person commentary or narrative. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Explain the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement your explanation: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Explanation of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Explanation of the second key point, using both book knowledge and notes.</li>\n    <li>Explanation of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>This concept offers a thorough understanding of...</p>"
+    }
+  ],
+  "summary_v1.5": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative explanation of a key concept explored in a book. Ensure that your explanation directly describes the key concept without framing it as third-person commentary or narrative. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Explain the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Explanation of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Explanation of the second key point, using both book knowledge and notes.</li>\n    <li>Explanation of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>This concept offers a thorough understanding of...</p>"
     }
   ],
   "alternate_takes_v1": [
@@ -236,6 +290,20 @@
       "content": "Use following notes to supplement the analysis: {{notes}}"
     }
   ],
+  "mini_essay_v1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive explanation of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Present the concept directly as it would be articulated in the book. Avoid commentary or third-person narrative, and instead, deliver the information in a clear, descriptive manner. Ensure that the explanation integrates related themes naturally and flows continuously in HTML paragraphs. Exclude unnecessary tags, self-references, or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Describe {{keyConceptTitle}} based on {{keyConceptDescription}}. Illustrate its connections with other themes in the book directly and clearly."
+    },
+    {
+      "role": "user",
+      "content": "Incorporate the following notes to enhance the explanation: {{notes}}"
+    }
+  ],
   "explain_to_child_v1": [
     {
       "role": "system",
@@ -248,6 +316,24 @@
     {
       "role": "user",
       "content": "Use these notes to help explain: {{notes}}"
+    }
+  ],
+  "central_insights_v1": [
+    {
+      "role": "system",
+      "content": "Describe key textual elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Present each element with an HTML <b> tag for the title followed by the exact text from the book, including specific details and quotes. After each quote, provide a detailed supplementary explanation in an HTML <p> tag that includes various perspectives and significant developments related to the key concept. Ensure comprehensive coverage by integrating different facets and changes impacting the concept. Use HTML <p> tags for each section and <b> tags for titles, and avoid any prefixes or additional formatting issues."
+    },
+    {
+      "role": "user",
+      "content": "List key elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Provide the exact text from the book, including specific details or quotes, followed by detailed supplementary explanations in HTML <p> tags. Ensure that the explanations cover different perspectives, key events, and significant developments related to the key concept. Avoid prefixes like 'html' and any interpretive commentary or citation details."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement the analysis: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p><b>{{KeyTextualElement1Title}}:</b> {{ExactTextFromBook1}}</p>\n<p>{{DetailedExplanation1}}</p>\n<p><b>{{KeyTextualElement2Title}}:</b> {{ExactTextFromBook2}}</p>\n<p>{{DetailedExplanation2}}</p>\n<p><b>{{KeyTextualElement3Title}}:</b> {{ExactTextFromBook3}}</p>\n<p>{{DetailedExplanation3}}</p>"
     }
   ]
 }
