@@ -1,0 +1,74 @@
+{
+    model: _MODEL_NAME,
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are an expert in book analysis. Your task is to generate a detailed breakdown of a book chapter based on the provided parameters. The output should be structured as a JSON object.",
+      },
+      {
+        role: "system",
+        content: "For each chapter analysis, include the following sections:",
+      },
+      {
+        role: "system",
+        content:
+          "1. **Themes Explored**: This should be a JSON array of objects with the fields 'themeTitle' and 'themeExplanation'.",
+      },
+      {
+        role: "system",
+        content:
+          "2. **Alternate Takes**: Provide alternate perspectives on the themes from other authors or experts.",
+      },
+      {
+        role: "system",
+        content:
+          "3. **Critical Analysis**: Critically analyze the themes and their presentation.",
+      },
+      {
+        role: "system",
+        content:
+          "4. **Historical Context**: Explore any historical background relevant to the chapter’s themes.",
+      },
+      {
+        role: "system",
+        content:
+          "5. **Author’s Perspective and Intent**: Discuss the author's perspective and intent behind the chapter.",
+      },
+      {
+        role: "system",
+        content:
+          "6. **Key Arguments and Evidence**: Summarize the key arguments and the evidence used to support them.",
+      },
+      {
+        role: "system",
+        content:
+          "7. **Implications and Applications**: Discuss the broader implications of the themes and their real-world applications.",
+      },
+      {
+        role: "system",
+        content:
+          "8. **Connections to Other Works**: Highlight connections between the chapter’s themes and ideas from other works.",
+      },
+      {
+        role: "system",
+        content:
+          "9. **Personal Reflection**: Include reflections on how the themes relate to personal experiences or beliefs.",
+      },
+      {
+        role: "system",
+        content:
+          "10. **Open Questions and Further Exploration**: List any unanswered questions or areas for further exploration arising from the chapter.",
+      },
+      {
+        role: "user",
+        content:
+          "Using the book named '{{bookName}}' by '{{authorName}}', analyze the chapter titled '{{chapterTitle}}' according to the sections outlined above.",
+      },
+    ],
+    temperature: 1,
+    max_tokens: 4096,
+    top_p: 1,
+    frequency_penalty: 0,
+    presence_penalty: 0,
+  }

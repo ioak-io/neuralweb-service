@@ -81,11 +81,14 @@ export const createBook = async (
   userId?: string
 ) => {
   if (book.isManaged) {
-    const bookMetadata = await GoogleBookHelper.getBookMetadataByIsbn(
-      book.isbn
-    );
+    const bookMetadata =
+      await GoogleBookHelper.getBookMetadataByBookNameAndAuthor(
+        book.title,
+        book.primaryAuthor
+      );
     console.log(bookMetadata, book.isbn);
     if (bookMetadata) {
+      console.log(bookMetadata);
       book.thumbnail = bookMetadata.thumbnail;
       book.publisher = bookMetadata.publisher;
       // book.shortDescription = book.description;

@@ -8,6 +8,7 @@ import * as ConceptdetailHelper from "../conceptdetail/helper";
 import { nextval } from "../../sequence/service";
 import * as Gptutils from "../../../lib/gptutils";
 import { getBookConceptsPrompt } from "./prompt";
+import { addThemes } from "../theme/helper";
 const { getCollection } = require("../../../lib/dbutils");
 
 const AI_API = process.env.AI_API || "http://localhost:5003/api";
@@ -18,6 +19,9 @@ export const generateConcepts = async (space: string, bookref: string) => {
   if (!book || !book.isManaged) {
     return null;
   }
+
+  const prompt = getBookConceptsPrompt(book.title, book.primaryAuthor);
+  console.log(typeof prompt.messages[0].content);
 
   const gptResponseText = await Gptutils.predict(
     getBookConceptsPrompt(book.title, book.primaryAuthor)
@@ -43,6 +47,7 @@ export const generateConcepts = async (space: string, bookref: string) => {
         update: {
           name: gptResponse[i].title,
           description: gptResponse[i].description,
+          themes: gptResponse[i].themes,
           reference: await nextval("conceptId", bookref, space),
         },
         upsert: true,
@@ -53,10 +58,11 @@ export const generateConcepts = async (space: string, bookref: string) => {
   await model.bulkWrite(_payload);
   const concepts = await model.find({ bookref });
 
-  await ConceptdetailHelper.createShortform(space, bookref);
+  // await ConceptdetailHelper.createShortform(space, bookref);
 
   for (let i = 0; i < concepts.length; i++) {
     // await _ai_populate_for_concept(space, bookref, concepts[i].reference);
+    await addThemes(space, bookref, concepts[i].reference, concepts[i].themes);
   }
 
   return concepts;
@@ -123,6 +129,7 @@ const _ai_populate_for_concept = async (
     console.log("populated keywords for " + bookref + ", " + reference);
   } catch (err) {
     console.log(err);
+    // console.log("error from vectorizer")
   }
 };
 

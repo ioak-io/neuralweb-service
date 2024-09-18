@@ -1,12 +1,12 @@
 var mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const chapterDetailSchema = new Schema(
+const detailSchema = new Schema(
   {
     customTitle: { type: String },
     customDescription: { type: String },
     type: { type: String },
-    chapterref: { type: String },
+    conceptref: { type: String },
     bookref: { type: String },
     content: { type: JSON },
   },
@@ -15,7 +15,7 @@ const chapterDetailSchema = new Schema(
 
 // bookSchema.index({ content: "text" });
 
-const chapterDetailCollection = "book.chapterdetail";
+const detailCollection = "book.detail";
 
 // module.exports = mongoose.model('bookmarks', articleSchema);
-export { chapterDetailSchema, chapterDetailCollection };
+export { detailSchema, detailCollection };

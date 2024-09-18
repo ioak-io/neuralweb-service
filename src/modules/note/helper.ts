@@ -580,8 +580,8 @@ const _ai_populate_for_note = async (space: string, reference: string) => {
       `${AI_API}/${SIMILARITY_ALGORITHM}/${space}/populate/${reference}`,
       {}
     );
-  } catch (err) {
-    console.log(err);
+  } catch (err: any) {
+    console.log(err.data);
   }
 };
 

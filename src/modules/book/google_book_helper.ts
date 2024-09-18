@@ -151,11 +151,63 @@ export const getBookMetadataByIsbn = async (
       chapterCount: item.volumeInfo.tableOfContents?.length || 0, // If tableOfContents is available
     };
 
-    // Get author information if available
-    // if (metadata.primaryAuthor) {
-    //   const authorBio = await getAuthorInfo(metadata.primaryAuthor);
-    //   return { ...metadata, authorBio };
-    // }
+    return metadata;
+  } catch (error) {
+    console.error("Error retrieving book metadata:", error);
+    return null;
+  }
+};
+
+export const getBookMetadataByBookNameAndAuthor = async (
+  bookName: string,
+  authorName: string
+): Promise<any | null> => {
+  const query = `intitle:${bookName}+inauthor:${authorName}`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_BOOKS_API_KEY}`;
+
+  try {
+    const response = await axios.get(url);
+    const items = response.data.items || [];
+
+    if (items.length === 0) {
+      return null;
+    }
+
+    // Attempt to find the best match based on title and author
+    const bestMatch =
+      items.find((item: any) => {
+        const volumeInfo = item.volumeInfo;
+        return (
+          volumeInfo.title?.toLowerCase() === bookName.toLowerCase() &&
+          volumeInfo.authors?.some(
+            (author: string) =>
+              author.toLowerCase() === authorName.toLowerCase()
+          )
+        );
+      }) || items[0]; // Fallback to the first item if no perfect match is found
+
+    console.log(bestMatch.volumeInfo.imageLinks);
+
+    const metadata = {
+      title: bestMatch.volumeInfo.title,
+      description: bestMatch.volumeInfo.description,
+      shortDescription: bestMatch.volumeInfo.shortDescription || "",
+      isbn:
+        bestMatch.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_13"
+        )?.identifier ||
+        bestMatch.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_10"
+        )?.identifier,
+      pageCount: bestMatch.volumeInfo.pageCount,
+      categories: bestMatch.volumeInfo.categories || [],
+      publisher: bestMatch.volumeInfo.publisher,
+      publishedDate: bestMatch.volumeInfo.publishedDate,
+      thumbnail: bestMatch.volumeInfo.imageLinks?.thumbnail,
+      authors: bestMatch.volumeInfo.authors,
+      primaryAuthor: bestMatch.volumeInfo.authors?.[0],
+      chapterCount: bestMatch.volumeInfo.tableOfContents?.length || 0, // If tableOfContents is available
+    };
 
     return metadata;
   } catch (error) {
@@ -163,6 +215,67 @@ export const getBookMetadataByIsbn = async (
     return null;
   }
 };
+
+export const getBookMetadata = async (
+  isbn: string,
+  bookName: string,
+  authorName: string
+): Promise<any | null> => {
+  // Function to fetch book metadata based on query
+  const fetchBookMetadata = async (query: string): Promise<any[]> => {
+    const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_BOOKS_API_KEY}`;
+    try {
+      const response = await axios.get(url);
+      return response.data.items || [];
+    } catch (error) {
+      console.error("Error retrieving book metadata:", error);
+      return [];
+    }
+  };
+
+  // Initial search by ISBN
+  let items = await fetchBookMetadata(`isbn:${isbn}`);
+
+  // If no results by ISBN, search by book name and author name
+  if (items.length === 0) {
+    const query = `intitle:${encodeURIComponent(
+      bookName
+    )}+inauthor:${encodeURIComponent(authorName)}`;
+    items = await fetchBookMetadata(query);
+  }
+
+  // Process the results
+  if (items.length === 0) {
+    return null;
+  }
+
+  // Extract metadata from the first (and only) item
+  const item = items[0];
+  console.log(item.volumeInfo.imageLinks);
+  const metadata = {
+    title: item.volumeInfo.title,
+    description: item.volumeInfo.description,
+    shortDescription: item.volumeInfo.shortDescription || "",
+    isbn:
+      item.volumeInfo.industryIdentifiers?.find(
+        (id: any) => id.type === "ISBN_13"
+      )?.identifier ||
+      item.volumeInfo.industryIdentifiers?.find(
+        (id: any) => id.type === "ISBN_10"
+      )?.identifier,
+    pageCount: item.volumeInfo.pageCount,
+    categories: item.volumeInfo.categories || [],
+    publisher: item.volumeInfo.publisher,
+    publishedDate: item.volumeInfo.publishedDate,
+    thumbnail: item.volumeInfo.imageLinks?.thumbnail,
+    authors: item.volumeInfo.authors,
+    primaryAuthor: item.volumeInfo.authors?.[0],
+    chapterCount: item.volumeInfo.tableOfContents?.length || 0, // If tableOfContents is available
+  };
+
+  return metadata;
+};
+
 // Function to get author information from Wikipedia
 const getAuthorInfo = async (authorName: string): Promise<string | null> => {
   try {

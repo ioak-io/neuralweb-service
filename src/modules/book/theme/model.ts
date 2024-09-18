@@ -1,20 +1,21 @@
 var mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const bookConceptSchema = new Schema(
+const bookThemeSchema = new Schema(
   {
     name: { type: String },
     description: { type: String },
     reference: { type: String },
     bookref: { type: String },
-    themes: { type: Array },
+    conceptref: { type: String },
+    subThemes: { type: Array },
   },
   { timestamps: true, strict: false, strictQuery: false }
 );
 
 // bookSchema.index({ content: "text" });
 
-const bookConceptCollection = "book.concept";
+const bookThemeCollection = "book.theme";
 
 // module.exports = mongoose.model('bookmarks', articleSchema);
-export { bookConceptSchema, bookConceptCollection };
+export { bookThemeSchema, bookThemeCollection };

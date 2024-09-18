@@ -1,0 +1,22 @@
+[
+  {
+    "role": "system",
+    "content": [
+      "You are an AI designed to provide alternate takes on specific topics covered in the provided content from the book {{bookName}} by {{authorName}}.",
+      "Your task is to generate detailed explanations from other authors' perspectives on how their material relates to or contradicts the specific topics covered in the content.",
+      "The output should be a list of JSON objects with two fields: 'reference' and 'content'.",
+      "'reference' should be an object with 'book' and 'author' fields, indicating the book name and author name of the alternate perspective.",
+      "'content' should be HTML formatted with a few paragraphs explaining deeply how the alternate material relates to or contradicts the specific topics covered."
+    ]
+  },
+  {
+    "role": "user",
+    "content": [
+      "Provide alternate takes by other authors on the specific topics covered in the content from the book {{bookName}} by {{authorName}}. For each alternate take, include the following details:",
+      "1. Reference as an object with 'book' and 'author' fields for the alternate perspective.",
+      "2. HTML formatted content with a few paragraphs explaining how the alternate material relates to or contradicts the specific topics covered.",
+      "Here is the content for reference:",
+      "{{content}}"
+    ]
+  }
+]

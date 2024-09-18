@@ -1,0 +1,339 @@
+{
+  "summary_v1": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. Your task is to ensure that the text generated is informative and specific, covering the main ideas and arguments on the key concept presented in the book. Use clear, concise language to convey the information while maintaining a logical flow and coherence throughout the summary, ensuring smooth transitions between paragraphs. The content should be returned in HTML format, using only paragraph, list, bold, and italic formats."
+    },
+    {
+      "role": "user",
+      "content": "Please provide a detailed summary of {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Ensure the summary is logically structured and covers the main ideas and arguments about {{keyConceptTitle}}. Use clear and concise language, and ensure the summary flows logically with smooth transitions between paragraphs. The final output should be in HTML format with just paragraph, list, bold, and italic formatting."
+    },
+    {
+      "role": "assistant",
+      "content": "<p><strong>{{keyConceptTitle}}</strong> is a pivotal topic that delves into...</p>\n<p>{{keyConceptDescription}}</p>\n<p>Key points include:</p>\n<ul>\n    <li><strong>Point 1:</strong> Description of the first key point.</li>\n    <li><strong>Point 2:</strong> Description of the second key point.</li>\n    <li><strong>Point 3:</strong> Description of the third key point.</li>\n</ul>\n<p>In summary, the exploration of {{keyConceptTitle}} provides a comprehensive understanding of...</p>"
+    }
+  ],
+  "summary_v1.1": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. The content should be returned in HTML format, using only paragraph, list, bold, and italic formats. Use clear, concise language to convey the information while maintaining a logical flow and coherence throughout the summary."
+    },
+    {
+      "role": "user",
+      "content": "Provide a detailed summary of {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Ensure the summary covers the main ideas and arguments about {{keyConceptTitle}}. The output should include key points and be formatted in HTML with paragraph, list, bold, and italic elements."
+    },
+    {
+      "role": "assistant",
+      "content": "<p><strong>{{keyConceptTitle}}</strong> is a pivotal topic that delves into...</p>\n<p>{{keyConceptDescription}}</p>\n<ul>\n    <li><strong>Point 1:</strong> Description of the first key point.</li>\n    <li><strong>Point 2:</strong> Description of the second key point.</li>\n    <li><strong>Point 3:</strong> Description of the third key point.</li>\n</ul>\n\n<p>In summary, the exploration of {{keyConceptTitle}} provides a comprehensive understanding of...</p>"
+    }
+  ],
+  "themes_v1": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a comprehensive and detailed discussion of the themes related to a specific key concept explored in a book. The discussion should delve into how the key concept is represented through various themes, examining how these themes interact with and support the key concept. The content should be returned in HTML format, using only paragraph, list, bold, and italic formats. Do not include any HTML prefixes or unnecessary tags. Ensure clear, concise, and thorough explanations, maintaining logical flow and coherence throughout the discussion. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to the key concept {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Include {{keyConceptDescription}} to provide context for the key concept. Provide a detailed examination of how {{keyConceptTitle}} is explored through various themes, including how these themes support and interact with the key concept. Analyze the significance of each theme in relation to {{keyConceptTitle}}, and include specific examples and explanations. The output should be formatted in HTML with paragraph, list, bold, and italic elements only, and should not contain any HTML prefixes or unnecessary tags."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement your analysis: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> explores the key concept of <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p>\n\n<p>The themes relevant to understanding {{keyConceptTitle}} are as follows:</p>\n\n<ul>\n    <li>Description of the first theme related to {{keyConceptTitle}}. This theme is explored by...</li>\n    <li>Description of the second theme related to {{keyConceptTitle}}. This theme interacts with {{keyConceptTitle}} by...</li>\n    <li>Description of the third theme related to {{keyConceptTitle}}. This theme supports the key concept by...</li>\n</ul>\n\n<p>Overall, the exploration of these themes provides a nuanced understanding of {{keyConceptTitle}} and illustrates how it is developed and supported throughout the book.</p>"
+    }
+  ],
+  "themes_v1 (concise)": [
+    {
+      "role": "system",
+      "content": "Provide a detailed discussion of themes related to a key concept from a book. The discussion should focus on how themes support and interact with the key concept. Format the response in HTML, using only paragraph, list, bold, and italic tags. Do not include any extra HTML tags or instructions. Ensure clarity and depth in explanations."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} as context. Provide examples of how the themes support and develop {{keyConceptTitle}}, ensuring depth and detailed analysis in HTML format (paragraph, list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> explores <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p>\n\n<p>The related themes include:</p>\n\n<ul>\n    <li>First theme: explored by...</li>\n    <li>Second theme: interacts with {{keyConceptTitle}} by...</li>\n    <li>Third theme: supports the concept by...</li>\n</ul>\n\n<p>These themes offer a deeper understanding of {{keyConceptTitle}} throughout the book.</p>"
+    }
+  ],
+  "themes_v1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid including extra HTML tags or instructions. Ensure theme titles are not prefixed with numbers or labels like 'Theme 1', 'Theme 2', etc."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} as context. Provide detailed examples of how each theme supports, challenges, or develops {{keyConceptTitle}}, ensuring an in-depth analysis in HTML format (paragraph, list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>"
+    }
+  ],
+  "themes_v1.1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid third-person commentary or narrative style. Do not include extra HTML tags or instructions. Present theme titles plainly, without numbers or labels like 'Theme 1', 'Theme 2', etc."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} as context. Provide detailed examples of how each theme supports, challenges, or develops {{keyConceptTitle}}, ensuring an in-depth analysis in HTML format (paragraph, list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>"
+    }
+  ],
+  "summary_v1.2": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. Your task is to ensure that the text generated is informative and specific, covering the main ideas and arguments on the key concept presented in the book. Use clear, concise language to convey the information while maintaining a logical flow and coherence throughout the summary, ensuring smooth transitions between paragraphs. The content should be returned in HTML format, using only paragraph, list, bold, and italic formats."
+    },
+    {
+      "role": "user",
+      "content": "Summarize {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include main ideas and arguments about {{keyConceptTitle}}, formatted in HTML format with just paragraph, list, bold, and italic formatting. Use the following notes to supplement your summary: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p><strong>{{keyConceptTitle}}</strong> is a pivotal topic that delves into...</p>\n<p>{{keyConceptDescription}}</p>\n<p>Key points include:</p>\n<ul>\n    <li><strong>Point 1:</strong> Description of the first key point.</li>\n    <li><strong>Point 2:</strong> Description of the second key point.</li>\n    <li><strong>Point 3:</strong> Description of the third key point.</li>\n</ul>\n<p>In summary, the exploration of {{keyConceptTitle}} provides a comprehensive understanding of...</p>"
+    }
+  ],
+
+  "summary_v1.3": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. Ensure the summary is informative and specific, covering the main ideas and arguments about the key concept. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text."
+    },
+    {
+      "role": "user",
+      "content": "Summarize {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Include the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement your summary: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p><strong>{{keyConceptTitle}}</strong> covers...</p>\n<p>{{keyConceptDescription}}</p>\n<p>The key points are as follows:</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, {{keyConceptTitle}} provides a thorough understanding of...</p>"
+    }
+  ],
+  "summary_v1.3.1": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative summary of a key concept explored in a book. Ensure the summary is informative and specific, covering the main ideas and arguments about the key concept. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Summarize the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement your summary: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Description of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Description of the second key point, using both book knowledge and notes.</li>\n    <li>Description of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>In summary, this concept provides a thorough understanding of...</p>"
+    }
+  ],
+  "summary_v1.4": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative explanation of a key concept explored in a book. Ensure that your explanation directly describes the key concept without framing it as third-person commentary or narrative. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Explain the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement your explanation: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Explanation of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Explanation of the second key point, using both book knowledge and notes.</li>\n    <li>Explanation of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>This concept offers a thorough understanding of...</p>"
+    }
+  ],
+  "summary_v1.5": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide a detailed, logically structured, and informative explanation of a key concept explored in a book. Ensure that your explanation directly describes the key concept without framing it as third-person commentary or narrative. Use clear, concise language to convey the information, maintaining a logical flow and coherence with smooth transitions between paragraphs. The notes provided are strictly for contextual understanding and should only be used where they are relevant to the book and the key concept being explored. However, they should not be treated as a source of information. You should rely on your own knowledge base to explain the concept and not use the notes as a foundation for building your logic. Format the output using HTML with paragraphs, lists, bold, and italic elements. Avoid including any extraneous tags or text. Do not include reminders of the user's instructions or make any self-references or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Explain the main ideas and arguments about {{keyConceptTitle}}, formatted in HTML with paragraphs, lists, bold, and italic elements. {{keyConceptDescription}}"
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for contextual understanding only, and only where relevant to the book and key concept. Do not directly use these notes as a source for building your explanation: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>{{keyConceptDescription}}</p>\n<ul>\n    <li>Explanation of the first key point, incorporating relevant information from the user's notes if applicable.</li>\n    <li>Explanation of the second key point, using both book knowledge and notes.</li>\n    <li>Explanation of the third key point, integrating notes where applicable.</li>\n</ul>\n<p>This concept offers a thorough understanding of...</p>"
+    }
+  ],
+  "alternate_takes_v1": [
+    {
+      "role": "system",
+      "content": "You are an AI designed to provide an in-depth analysis of alternate takes by other authors on the themes explored in a specific key concept from a book. Your task is to focus solely on the perspectives of other authors, analyzing each take in depth. This includes highlighting the nuances in their arguments, the implications of their perspectives, and how these ideas expand, challenge, or reinterpret the key concept. Avoid discussing the themes from the book directly. Instead, ensure that each author's take is examined critically, with attention to how their viewpoint contributes to the broader discourse on {{keyConceptTitle}}. The content should be returned in HTML format, using only paragraph, list, bold, and italic formats. Avoid HTML prefixes or unnecessary tags. Ensure the analysis is logically coherent, detailed, and thoughtful throughout the discussion."
+    },
+    {
+      "role": "user",
+      "content": "Provide a detailed analysis of alternate takes by other authors on the themes related to the key concept {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} to provide context for the key concept. Analyze how the perspectives of these other authors differ from or contribute to the understanding of {{keyConceptTitle}}. Focus exclusively on alternate takes, avoiding any elaboration on the original themes from the book. For each perspective, ensure the analysis is nuanced, and explain the implications of each argument in detail. The output should be formatted in HTML with paragraph, list, bold, and italic elements only, without any HTML prefixes or unnecessary tags."
+    },
+    {
+      "role": "user",
+      "content": "Incorporate these notes to enrich your analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> introduces the key concept of <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p>\n\n<p>Several authors provide alternative perspectives on this concept, each offering a distinct take that deepens the discourse:</p>\n\n<ul>\n    <li><strong>[Author 1]</strong> emphasizes <specific aspect>, arguing that <detailed explanation of argument>. This perspective challenges {{authorName}}'s approach by focusing on <critical point of divergence>. The implications of this viewpoint include <implications or broader consequences of the argument>.</li>\n    <li><strong>[Author 2]</strong> takes a different angle by exploring <specific focus>. Their approach contributes to the understanding of {{keyConceptTitle}} by <detailed exploration of how their perspective adds complexity or offers a novel viewpoint>. The core idea shifts the discussion by <explanation of how this new angle alters the interpretation>.</li>\n    <li><strong>[Author 3]</strong> offers a critique based on <theoretical or philosophical framework>, suggesting that {{keyConceptTitle}} can be understood differently when viewed through this lens. Their analysis broadens the scope by <discussion of how this theory contributes to a new understanding of the concept>.</li>\n</ul>\n\n<p>Through these diverse perspectives, a more complex and layered understanding of <strong>{{keyConceptTitle}}</strong> emerges, showing how different interpretive angles can deepen the conversation and lead to new insights.</p>"
+    }
+  ],
+  "alternate_takes_v1 (concise)": [
+    {
+      "role": "system",
+      "content": "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags."
+    },
+    {
+      "role": "user",
+      "content": "Analyze alternate takes by other authors on the key concept {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Focus on how these perspectives contribute to or diverge from the understanding of {{keyConceptTitle}}. Format in HTML with paragraph, list, bold, and italic elements only."
+    },
+    {
+      "role": "user",
+      "content": "Use following notes to supplement the analysis: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> introduces <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p><p>Alternate perspectives include:</p><ul><li><strong>[Author 1]</strong>: <specific aspect> challenges {{authorName}}'s view, with implications such as <consequences>.</li><li><strong>[Author 2]</strong>: Offers a novel view on <specific focus> that alters the interpretation by <explanation>.</li><li><strong>[Author 3]</strong>: Uses <framework> to suggest a different understanding of {{keyConceptTitle}}, expanding the discussion by <details>.</li></ul><p>These perspectives add layers to the understanding of <strong>{{keyConceptTitle}}</strong>.</p>"
+    }
+  ],
+  "alternate_takes_v1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive discussion of themes related to a key concept from a book. The analysis should examine how each theme supports, challenges, or interacts with the key concept, ensuring clarity and depth. Format the response in HTML using only paragraph, list, bold, and italic tags. Avoid including extra HTML tags or instructions."
+    },
+    {
+      "role": "user",
+      "content": "Discuss the themes related to {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} as context. Provide detailed examples of how each theme supports, challenges, or develops {{keyConceptTitle}}, ensuring an in-depth analysis in HTML format (paragraph, list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<p>The book <strong>{{bookName}}</strong> by <strong>{{authorName}}</strong> delves into <strong>{{keyConceptTitle}}</strong>. {{keyConceptDescription}}</p>\n\n<p>The themes related to {{keyConceptTitle}} include:</p>\n\n<ul>\n    <li><strong>First theme:</strong> This theme is explored by...</li>\n    <li><strong>Second theme:</strong> It interacts with {{keyConceptTitle}} by...</li>\n    <li><strong>Third theme:</strong> This theme supports {{keyConceptTitle}} by...</li>\n</ul>\n\n<p>Each theme contributes to a deeper understanding of {{keyConceptTitle}} within the context of the book.</p>"
+    }
+  ],
+  "alternate_takes_v1.2": [
+    {
+      "role": "system",
+      "content": "You are an AI that provides in-depth analysis of alternate perspectives by other authors on a key concept from a book. Focus only on these alternate views, analyzing how each author's take adds to or challenges the concept. Avoid discussing the book's original themes directly. Use the specific author names, rather than placeholders like [Author 1], [Author 2], etc. Ensure a critical, nuanced examination of each viewpoint. Use only paragraph, list, bold, and italic formats in HTML, without unnecessary tags."
+    },
+    {
+      "role": "user",
+      "content": "Analyze alternate takes by other authors on the key concept {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Focus on how these perspectives contribute to or diverge from the understanding of {{keyConceptTitle}}. Format in HTML with paragraph, list, bold, and italic elements only."
+    },
+    {
+      "role": "user",
+      "content": "Use following notes to supplement the analysis: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<ul><li><strong>{{AuthorName1}}</strong>: <specific aspect> challenges {{authorName}}'s view, with implications such as <consequences>.</li><li><strong>{{AuthorName2}}</strong>: Offers a novel view on <specific focus> that alters the interpretation by <explanation>.</li><li><strong>{{AuthorName3}}</strong>: Uses <framework> to suggest a different understanding of {{keyConceptTitle}}, expanding the discussion by <details>.</li></ul>"
+    }
+  ],
+  "further_references_v1": [
+    {
+      "role": "system",
+      "content": "Provide a list of book references related to the themes presented in a specified book concerning a key concept. For each recommended book, include the book name, author name, and a detailed analysis of how the book explores themes similar to those in the original book. Ensure the analysis highlights how the themes in the recommended books support, challenge, or interact with the key concept. Format the response in HTML using only list, bold, and italic tags. Avoid including introductory text, concluding remarks, or extra HTML tags."
+    },
+    {
+      "role": "user",
+      "content": "Provide a list of books that relate to the themes associated with {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. For each recommended book, include the book name, author name, and a detailed analysis of how the book addresses themes similar to those explored in {{bookName}}. The analysis should describe how the themes in the recommended books support, challenge, or interact with the key concept. Output the content in HTML format (list, bold, and italic)."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes for additional analysis: {{notes}}."
+    },
+    {
+      "role": "assistant",
+      "content": "<ul>\n    <li><strong>{{RecommendedBook1}} by {{Author1}}:</strong> This book explores themes similar to {{keyConceptTitle}} by...</li>\n    <li><strong>{{RecommendedBook2}} by {{Author2}}:</strong> It addresses themes that interact with {{keyConceptTitle}} through...</li>\n    <li><strong>{{RecommendedBook3}} by {{Author3}}:</strong> This book supports the themes related to {{keyConceptTitle}} by...</li>\n</ul>"
+    }
+  ],
+  "mini_essay_v1": [
+    {
+      "role": "system",
+      "content": "Provide a detailed, continuous mini-essay on {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Integrate themes naturally, use clear language with smooth transitions, and format the output in HTML paragraphs. Exclude extraneous tags or text, and avoid self-references and apologies."
+    },
+    {
+      "role": "user",
+      "content": "Analyze {{keyConceptTitle}} based on {{keyConceptDescription}}. Connect it with other themes in the book."
+    },
+    {
+      "role": "user",
+      "content": "Use following notes to supplement the analysis: {{notes}}"
+    }
+  ],
+  "mini_essay_v1.1": [
+    {
+      "role": "system",
+      "content": "Provide a comprehensive explanation of {{keyConceptTitle}} from {{bookName}} by {{authorName}}. Present the concept directly as it would be articulated in the book. Avoid commentary or third-person narrative, and instead, deliver the information in a clear, descriptive manner. Ensure that the explanation integrates related themes naturally and flows continuously in HTML paragraphs. Exclude unnecessary tags, self-references, or apologies."
+    },
+    {
+      "role": "user",
+      "content": "Describe {{keyConceptTitle}} based on {{keyConceptDescription}}. Illustrate its connections with other themes in the book directly and clearly."
+    },
+    {
+      "role": "user",
+      "content": "Incorporate the following notes to enhance the explanation: {{notes}}"
+    }
+  ],
+  "explain_to_child_v1": [
+    {
+      "role": "system",
+      "content": "Explain {{keyConceptTitle}} from {{bookName}} by {{authorName}} in a way that's easy for a small child to understand. Use simple words, short sentences, and relatable examples. Make sure to format the response in HTML paragraphs, without extra tags or text, and avoid self-references and apologies."
+    },
+    {
+      "role": "user",
+      "content": "Describe {{keyConceptTitle}} in a fun and easy way, connecting it to simple ideas and stories that a child would understand."
+    },
+    {
+      "role": "user",
+      "content": "Use these notes to help explain: {{notes}}"
+    }
+  ],
+  "central_insights_v1": [
+    {
+      "role": "system",
+      "content": "Describe key textual elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Present each element with an HTML <b> tag for the title followed by the exact text from the book, including specific details and quotes. After each quote, provide a detailed supplementary explanation in an HTML <p> tag that includes various perspectives and significant developments related to the key concept. Ensure comprehensive coverage by integrating different facets and changes impacting the concept. Use HTML <p> tags for each section and <b> tags for titles, and avoid any prefixes or additional formatting issues."
+    },
+    {
+      "role": "user",
+      "content": "List key elements or events that develop {{keyConceptTitle}} in {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} for context. Provide the exact text from the book, including specific details or quotes, followed by detailed supplementary explanations in HTML <p> tags. Ensure that the explanations cover different perspectives, key events, and significant developments related to the key concept. Avoid prefixes like 'html' and any interpretive commentary or citation details."
+    },
+    {
+      "role": "user",
+      "content": "Use the following notes to supplement the analysis: {{notes}}"
+    },
+    {
+      "role": "assistant",
+      "content": "<p><b>{{KeyTextualElement1Title}}:</b> {{ExactTextFromBook1}}</p>\n<p>{{DetailedExplanation1}}</p>\n<p><b>{{KeyTextualElement2Title}}:</b> {{ExactTextFromBook2}}</p>\n<p>{{DetailedExplanation2}}</p>\n<p><b>{{KeyTextualElement3Title}}:</b> {{ExactTextFromBook3}}</p>\n<p>{{DetailedExplanation3}}</p>"
+    }
+  ]
+}
