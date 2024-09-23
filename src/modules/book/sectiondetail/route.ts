@@ -4,33 +4,27 @@ import {
   updateDetail,
   createDetail,
   getDetailsByBookReference,
-  getDetailsByBookReferenceShortform,
   deleteDetail,
 } from "./service";
 
 module.exports = function (router: any) {
   router.put(
-    "/book/detail/:space/:id",
+    "/book/section-detail/:space/:id",
     authorizeApi,
     asyncHandler(updateDetail)
   );
   router.post(
-    "/book/detail/:space/:bookref",
+    "/book/section-detail/:space/:bookref/:sectionref",
     authorizeApi,
     asyncHandler(createDetail)
   );
   router.get(
-    "/book/detail/:space/:bookref",
+    "/book/section-detail/:space/:bookref/:sectionref",
     authorizeApi,
     asyncHandler(getDetailsByBookReference)
   );
-  router.get(
-    "/book/detail-shortform/:space/:bookref",
-    authorizeApi,
-    asyncHandler(getDetailsByBookReferenceShortform)
-  );
   router.delete(
-    "/book/detail/:space/:id",
+    "/book/section-detail/:space/:id",
     authorizeApi,
     asyncHandler(deleteDetail)
   );

@@ -86,9 +86,7 @@ export const createBook = async (
         book.title,
         book.primaryAuthor
       );
-    console.log(bookMetadata, book.isbn);
     if (bookMetadata) {
-      console.log(bookMetadata);
       book.thumbnail = bookMetadata.thumbnail;
       book.publisher = bookMetadata.publisher;
       // book.shortDescription = book.description;
@@ -103,10 +101,10 @@ export const createBook = async (
     reference: await nextval("bookId", undefined, space),
   });
 
-  const concepts = await ConceptHelper.generateConcepts(
-    space,
-    response.reference
-  );
+  // const concepts = await ConceptHelper.generateConcepts(
+  //   space,
+  //   response.reference
+  // );
 
   return response;
 

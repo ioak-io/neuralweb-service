@@ -16,6 +16,7 @@ const bookSchema = new Schema(
     isManaged: { type: Boolean },
     isbn: { type: String },
     pageCount: { type: Number },
+    chapterCount: { type: Number },
     publishedDate: { type: String },
     publisher: { type: String },
     thumbnail: { type: String },

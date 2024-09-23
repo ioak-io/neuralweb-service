@@ -193,7 +193,7 @@
     },
     {
       "role": "user",
-      "content": "Provide a detailed analysis of alternate takes by other authors on the themes related to the key concept {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} to provide context for the key concept. Analyze how the perspectives of these other authors differ from or contribute to the understanding of {{keyConceptTitle}}. Focus exclusively on alternate takes, avoiding any elaboration on the original themes from the book. For each perspective, ensure the analysis is nuanced, and explain the implications of each argument in detail. The output should be formatted in HTML with paragraph, list, bold, and italic elements only, without any HTML prefixes or unnecessary tags."
+      "content": "Provide a detailed analysis of alternate takes by other authors on the themes related to the key concept {{keyConceptTitle}} from the book {{bookName}} by {{authorName}}. Use {{keyConceptDescription}} to provide context for the key concept. Analyze how the perspectives of these other authors differ from or contribute to the understanding of {{keyConceptTitle}}. Focus exclusively on alternate takes, avoiding any elaboration on the original themes from the book. For each perspective, ensure the analysis is nuanced, and explain the implications of each argument in sectiondetail. The output should be formatted in HTML with paragraph, list, bold, and italic elements only, without any HTML prefixes or unnecessary tags."
     },
     {
       "role": "user",
