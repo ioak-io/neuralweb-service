@@ -1,22 +1,29 @@
-import bcrypt from "bcrypt";
-import { validateMandatoryFields } from "../../lib/validation";
-
-import { userSchema, userCollection } from "../user/model";
-import * as Helper from "./helper";
-import { getCollection } from "../../lib/dbutils";
-
-const selfRealm = 100;
+import * as NoteHelper from "./note_helper";
+import * as BookHelper from "./book_helper";
 
 export const generateReportForNote = async (req: any, res: any) => {
-  const report: any = await Helper.generateReportForNote(req.params.space, req.params.noteRef);
+  const report: any = await NoteHelper.generateReportForNote(
+    req.params.space,
+    req.params.noteRef
+  );
+  res.status(200);
+  res.send(report);
+  res.end();
+};
+
+export const generateReport = async (req: any, res: any) => {
+  const report: any = await NoteHelper.generateReport(req.params.space);
   res.status(200);
   res.send(report);
   res.end();
 };
 
 
-export const generateReport = async (req: any, res: any) => {
-  const report: any = await Helper.generateReport(req.params.space);
+export const generateReportForBook = async (req: any, res: any) => {
+  const report: any = await BookHelper.generateReportForBook(
+    req.params.space,
+    req.params.bookref
+  );
   res.status(200);
   res.send(report);
   res.end();

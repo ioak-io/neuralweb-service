@@ -16,10 +16,10 @@ export const generateSections = async (req: any, res: any) => {
 
   await finishGenerating(req.params.space, req.params.bookref);
 
-  await SectiondetailHelper.generateAllSectionSummaries(
-    req.params.space,
-    req.params.bookref
-  );
+  // await SectiondetailHelper.generateAllSectionSummaries(
+  //   req.params.space,
+  //   req.params.bookref
+  // );
 
   // if (!response) {
   //   res.status(404);
@@ -38,6 +38,7 @@ export const createBookSection = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const bookSection: any = await Helper.createBookSection(
     req.params.space,
+    req.params.bookref,
     req.body,
     userId
   );
@@ -50,6 +51,8 @@ export const updateBookSection = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const bookSection: any = await Helper.updateBookSection(
     req.params.space,
+    req.params.bookref,
+    req.params.sectionref,
     req.body,
     userId
   );

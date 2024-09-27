@@ -13,12 +13,12 @@ import {
 
 module.exports = function (router: any) {
   router.put(
-    "/book/section/:space",
+    "/book/section/:space/:bookref/:sectionref",
     authorizeApi,
     asyncHandler(updateBookSection)
   );
   router.post(
-    "/book/section/:space",
+    "/book/section/:space/:bookref",
     authorizeApi,
     asyncHandler(createBookSection)
   );

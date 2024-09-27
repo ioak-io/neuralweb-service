@@ -43,6 +43,8 @@ export const getLog = async (
 ) => {
   const model = getCollection(space, bookLogCollection, bookLogSchema);
 
+  await removeStaleLogs(space);
+
   if (!sectionref) {
     return await model.find({ bookref, sectionref: null });
   }
@@ -50,4 +52,11 @@ export const getLog = async (
     return await model.find({ bookref, sectionref });
   }
   return await model.find({ bookref, sectionref, sectiontype });
+};
+
+const removeStaleLogs = async (space: string) => {
+  const model = getCollection(space, bookLogCollection, bookLogSchema);
+  return await model.deleteMany({
+    createdAt: { $lt: new Date(Date.now() - 2 * 60 * 1000) },
+  });
 };

@@ -10,12 +10,29 @@ const _MODEL_NAME = process.env.CHATGPT_MODEL_NAME || "gpt-4o-mini";
 export const getSummarySectionPrompt = (
   bookName: string,
   authorName: string,
+  chapters: string,
   noteList: string[]
 ) => {
   const notes = noteList.join("/n");
   return getPrompt(_SUMMARY_PROMPT, {
     bookName,
     authorName,
+    chapters,
+    notes,
+  });
+};
+
+export const getChaptersListPrompt = (
+  bookName: string,
+  authorName: string,
+  chapterCount: number,
+  noteList: string[]
+) => {
+  const notes = noteList.join("/n");
+  return getPrompt(_CHAPTERS_PROMPT, {
+    bookName,
+    authorName,
+    chapterCount,
     notes,
   });
 };
@@ -24,36 +41,60 @@ const _SUMMARY_PROMPT = {
   model: _MODEL_NAME,
   messages: [
     {
-      "role": "system",
-      "content": [
-        "You are an AI assistant and an expert book reader.",
-        "Read and understand books thoroughly to provide accurate and comprehensive summaries, ensuring no details are omitted.",
-        "Summarize the book by logically grouping related ideas and sections, capturing every key event, character development, and plot point in full section detail, so that the summary is as close to reading the actual book as possible.",
-        "For longer books, ensure a higher number of sections that correlates both with the book’s length and complexity. Larger books should have more detailed sections, but shorter books should only have as many sections as are necessary to cover their key elements.",
-        "Ensure that each section provides enough detail to cover all major developments while avoiding too short or compressed summaries.",
-        "Organize the summary to reflect the natural flow of events without strictly following chapter divisions, using meaningful section titles instead of generic ones like 'Introduction' or 'Conclusion.'",
-        "Avoid repeating the book name in section titles. Focus entirely on the book's content.",
-        "Ensure that no plot points, themes, or character developments are missed, creating a summary so comprehensive that the reader feels they have fully grasped the essence of the book without reading the full text.",
-        "Use <p> for paragraphs, <i> for emphasis, <b> only when necessary.",
-        "Ensure the output is valid JSON with all strings, property names, and values properly enclosed in double quotes.",
-        "Avoid any unquoted keys or improperly formatted JSON elements.",
-        "Structure the output as follows: [{\"title\": \"section title\", \"content\": \"section summary in HTML with <p>, <i>, and <b> tags\", \"subsections\": [{\"title\": \"sub-section title\", \"content\": \"sub-section summary in HTML with <p>, <i>, and <b> tags\"}]}]",
-        "Pay special attention to escaping special characters and ensuring proper syntax for valid JSON."
-      ]
+      role: "system",
+      content: [
+        "You are an AI assistant and expert book reader.",
+        "Provide comprehensive chapter-by-chapter summaries, ensuring all major plot points, character developments, and themes are included.",
+        "Follow the chapters as given by the user, ensuring logical flow and organization of the book's content.",
+        "Ensure the content is distributed naturally across the chapters, fitting all key events and elements of the book appropriately.",
+        "Each section should capture the essence of the chapter with a detailed summary of at least one paragraph, covering all important aspects without oversimplifying.",
+        "Format using <p>, <i>, and <b> tags only when necessary.",
+        'Do not include any explanations, only provide a  RFC8259 compliant JSON response following this format without deviation. [{"title": "section title", "content": "section summary", "subsections": [{"title": "sub-section title", "content": "sub-section summary"}]}].',
+      ],
     },
     {
-      "role": "user",
-      "content": [
-        "Provide a detailed and logically grouped summary of the book {{bookName}} by {{authorName}}.",
-        "For longer books, ensure a higher number of sections that accurately reflects both the length and complexity of the book, without reducing the depth of each section.",
-        "Each section should capture the natural flow of events, avoiding thematic analysis or interpretation.",
-        "Use only <p>, <i>, and <b> tags for formatting in the output.",
-        "Ensure all property names and values are double-quoted, and the output is fully JSON compliant with correct formatting.",
-        "Avoid repeating the book name in section titles and focus on using real, meaningful section names."
-      ]
-    }
-  ]
-  ,
+      role: "user",
+      content: [
+        "Provide a detailed summary of {{bookName}} by {{authorName}}.",
+        "Use the list of chapter titles provided in {{chapters}} to organize the book's content logically.",
+        "Ensure all key details and content of the book are covered within the chapter summaries, flowing correctly from one chapter to the next as per the book's structure.",
+        "Each section must cover key details comprehensively without oversimplification and maintain conciseness, providing at least a paragraph for each chapter.",
+      ],
+    },
+  ],
+  temperature: 1,
+  max_tokens: 4096,
+  top_p: 1,
+  frequency_penalty: 0,
+  presence_penalty: 0,
+};
+
+const _CHAPTERS_PROMPT = {
+  model: _MODEL_NAME,
+  messages: [
+    {
+      role: "system",
+      content: [
+        "Use the provided book name {{bookName}}.",
+        "Use the author name {{authorName}}.",
+        "Use the chapter count {{chapterCount}}.",
+        "Generate a list of chapter titles that closely follow the actual structure and flow of the book, wherever possible.",
+        "If the original book does not have enough distinct chapters to meet the chapterCount, distribute additional chapters evenly throughout the book’s content, while maintaining logical divisions.",
+        "Ensure the number of chapters generated is exactly equal to the chapterCount specified.",
+        "If chapters are numbered without titles, create suitable titles based on their content.",
+        "Do not include any chapter number prefix in the chapter titles. Do not repeat chapter title in chapter subtitle.",
+        'Do not include any explanations, only provide a  RFC8259 compliant JSON response following this format without deviation. [{"title": "chapter title", "subtitle": "a short one line text to give a context of wht the chapter is about"}].',
+      ],
+    },
+    {
+      role: "user",
+      content: [
+        "Book name is {{bookName}}.",
+        "Author name is {{authorName}}.",
+        "Number of chapters is {{chapterCount}}.",
+      ],
+    },
+  ],
   temperature: 1,
   max_tokens: 4096,
   top_p: 1,

@@ -117,12 +117,7 @@ export const createBook = async (
   // return { book: response, chapter: chapterResponse };
 };
 
-export const updateBook = async (
-  space: string,
-  reload: boolean,
-  data: any,
-  userId?: string
-) => {
+export const updateBook = async (space: string, data: any, userId?: string) => {
   const model = getCollection(space, bookCollection, bookSchema);
   let response = null;
   if (data._id) {
@@ -148,6 +143,21 @@ export const updateBook = async (
   return {
     book,
   };
+};
+
+export const updateChapterCount = async (
+  space: string,
+  bookref: string,
+  chapterCount: number
+) => {
+  const model = getCollection(space, bookCollection, bookSchema);
+  return await model.findOneAndUpdate(
+    { reference: bookref },
+    { chapterCount },
+    {
+      upsert: true,
+    }
+  );
 };
 
 export const getBook = async (space: string) => {

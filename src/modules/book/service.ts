@@ -33,7 +33,7 @@ export const createBook = async (req: any, res: any) => {
 
   await SectionHelper.generateSections(req.params.space, book?.reference);
 
-  // await finishGenerating(req.params.space, book?.reference);
+  await finishGenerating(req.params.space, book?.reference);
 
   // await SectiondetailHelper.generateAllSectionSummaries(
   //   req.params.space,
@@ -45,7 +45,6 @@ export const updateBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const book: any = await Helper.updateBook(
     req.params.space,
-    req.query.reload,
     req.body,
     userId
   );

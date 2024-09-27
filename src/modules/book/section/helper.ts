@@ -9,12 +9,14 @@ import * as ThemeHelper from "../theme/helper";
 import * as NoteHelper from "../../note/helper";
 import { nextval } from "../../sequence/service";
 import * as Gptutils from "../../../lib/gptutils";
-import { getSummarySectionPrompt } from "./prompt";
+import { getChaptersListPrompt, getSummarySectionPrompt } from "./prompt";
 import { addThemes } from "../theme/helper";
 const { getCollection } = require("../../../lib/dbutils");
 
 const AI_API = process.env.AI_API || "http://localhost:5003/api";
 const SIMILARITY_ALGORITHM = "similarity";
+
+const SEQUENCE_ID = "bookSectionReference";
 
 export const generateSections = async (space: string, bookref: string) => {
   const book = await BookHelper.getBookByReference(space, bookref);
@@ -22,8 +24,12 @@ export const generateSections = async (space: string, bookref: string) => {
     return null;
   }
 
-  const sections: any[] = await _createSummary(space, bookref);
-  console.log(sections);
+  const chaptersList: { title: string; subtitle: string }[] =
+    await _getChaptersList(space, bookref);
+  const chapters = chaptersList
+    .map((chapter) => `${chapter.title}: ${chapter.subtitle}`)
+    .join("\n");
+  const sections: any[] = await _createSummary(space, bookref, chapters);
   const model = getCollection(space, bookSectionCollection, bookSectionSchema);
   const _payload: any[] = [];
   for (let i = 0; i < sections.length; i++) {
@@ -37,7 +43,7 @@ export const generateSections = async (space: string, bookref: string) => {
         update: {
           title: sections[i].title,
           description: sections[i].summary,
-          reference: await nextval("sectionId", bookref, space),
+          reference: await nextval(SEQUENCE_ID, bookref, space),
         },
         upsert: true,
       },
@@ -45,11 +51,16 @@ export const generateSections = async (space: string, bookref: string) => {
   }
   await model.deleteMany({ bookref });
   await model.bulkWrite(_payload);
+  await BookHelper.updateChapterCount(space, bookref, _payload.length);
 
   return sections;
 };
 
-const _createSummary = async (space: string, bookref: string) => {
+const _createSummary = async (
+  space: string,
+  bookref: string,
+  chapters: string
+) => {
   const book = await BookHelper.getBookByReference(space, bookref);
   const notes = await NoteHelper.getNoteByBookref(space, bookref);
   const notesList: string[] = [];
@@ -61,8 +72,9 @@ const _createSummary = async (space: string, bookref: string) => {
   extracts.forEach((item: any) => notesList.push(item.summary));
 
   const gptResponseText = await Gptutils.predict(
-    getSummarySectionPrompt(book.title, book.primaryAuthor, notesList)
+    getSummarySectionPrompt(book.title, book.primaryAuthor, chapters, notesList)
   );
+  console.log(gptResponseText)
   const gptResponse = JSON.parse(gptResponseText);
   const _data: { title: string; summary: string }[] = [];
   gptResponse.forEach((section: any) => {
@@ -75,6 +87,30 @@ const _createSummary = async (space: string, bookref: string) => {
   });
 
   return _data;
+};
+
+const _getChaptersList = async (space: string, bookref: string) => {
+  const book = await BookHelper.getBookByReference(space, bookref);
+  const notes = await NoteHelper.getNoteByBookref(space, bookref);
+  const notesList: string[] = [];
+  notes.forEach((item: any) => notesList.push(item.content));
+  const extracts = await ExtractHelper.getExtractChunksByBookReference(
+    space,
+    bookref
+  );
+  extracts.forEach((item: any) => notesList.push(item.summary));
+
+  const gptResponseText = await Gptutils.predict(
+    getChaptersListPrompt(
+      book.title,
+      book.primaryAuthor,
+      book.chapterCount,
+      notesList
+    )
+  );
+  const gptResponse = JSON.parse(gptResponseText);
+
+  return gptResponse;
 };
 
 const _processAiResponse = (type: string, text: any): any => {
@@ -120,49 +156,38 @@ const _processAiResponse = (type: string, text: any): any => {
 
 export const createBookSection = async (
   space: string,
-  { bookSection, meta }: any,
-  userId?: string
-) => {
-  const model = getCollection(space, bookSectionCollection, bookSectionSchema);
-  let response = null;
-  response = await model.create({
-    ...bookSection,
-    // reference: await nextval("bookSectionId", undefined, space),
-  });
-  console.log(response.reference);
-  return response;
-};
-
-export const updateBookSection = async (
-  space: string,
+  bookref: string,
   data: any,
   userId?: string
 ) => {
   const model = getCollection(space, bookSectionCollection, bookSectionSchema);
   let response = null;
-  if (data._id) {
-    response = await model.findByIdAndUpdate(data._id, data, {
-      new: true,
-      upsert: true,
-    });
-  } else {
-    response = await model.create({
-      ...data,
-      // reference: await nextval("bookSectionId", undefined, space),
-    });
-  }
-
-  const bookSectionResponse = await model.find({
-    reference: response.reference,
+  response = await model.create({
+    ...data,
+    bookref,
+    reference: await nextval(SEQUENCE_ID, bookref, space),
   });
-  let bookSection = null;
-  if (bookSectionResponse.length > 0) {
-    bookSection = bookSectionResponse[0];
-  }
+  return response;
+};
 
-  return {
-    bookSection,
-  };
+export const updateBookSection = async (
+  space: string,
+  bookref: string,
+  sectionref: string,
+  data: any,
+  userId?: string
+) => {
+  const model = getCollection(space, bookSectionCollection, bookSectionSchema);
+  let response = null;
+  const { title, description }: any = { ...data };
+  response = await model.findOneAndUpdate(
+    { bookref, reference: sectionref },
+    { title, description },
+    {
+      upsert: true,
+    }
+  );
+  return response;
 };
 
 const _ai_populate_for_section = async (
