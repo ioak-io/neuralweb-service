@@ -361,7 +361,6 @@ export const createShortform = async (
 
   await BookHelper.updateBook(
     space,
-    false,
     { _id: book._id, overview: gptResponse.bookOverview.overview },
     userId
   );

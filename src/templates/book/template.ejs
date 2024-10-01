@@ -3,18 +3,45 @@
   @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 </style>
 
+<head>
+  <title><%= book.title %></title>
+</head>
+
 <%- include('template_styles.ejs') %>
 
 <body>
-  <h1>
-    <%= title %>
-  </h1>
-  <% if (summary) { %>
-  <p class="summary">
-    <%= summary %>
-  </p>
-  <% } %>
-  <%- content %>
+  <!-- Section 1: Book Details -->
+  <p class="nomargins"><strong><%= book.primaryAuthor %></strong></p>
+  <h1 class="nomargins"><%= book.title %></h1>
+  <p><%= book.description %></p>
+  <h5>About the author</h5>
+  <p><%= book.authorInfo %></p>
+
+  <!-- Page Break -->
+  <div style="page-break-after: always;"></div>
+
+  <!-- Section 2: Book Sections Overview -->
+  <h2>Overview</h2>
+  <% bookSections.forEach(function(section, index) { %>
+  <h5><%= index + 1 %>. <%= section.title %></h5>
+  <div><%- section.description %></div>
+  <% }); %>
+
+  <!-- Page Break -->
+  <div style="page-break-after: always;"></div>
+
+  <!-- Section 3: Detailed Section Content -->
+  <% bookSections.forEach(function(section, index) { %>
+  <h4><%= index + 1 %>. <%= section.title %></h4>
+  <% bookSectiondetailMap[section.reference].forEach(function(detail) { %>
+  <h5><%= detail.type %></h5>
+  <!-- Render HTML content in detail.content -->
+  <div><%- detail.content %></div>
+  <% }); %>
+  
+  <!-- Page Break -->
+  <div style="page-break-after: always;"></div>
+  <% }); %>
 </body>
 
 </html>

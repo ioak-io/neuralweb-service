@@ -35,19 +35,15 @@ export const createBook = async (req: any, res: any) => {
 
   await finishGenerating(req.params.space, book?.reference);
 
-  // await SectiondetailHelper.generateAllSectionSummaries(
-  //   req.params.space,
-  //   book?.reference
-  // );
+  await SectiondetailHelper.generateAllSectionSummaries(
+    req.params.space,
+    book?.reference
+  );
 };
 
 export const updateBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const book: any = await Helper.updateBook(
-    req.params.space,
-    req.body,
-    userId
-  );
+  const book: any = await Helper.updateBook(req.params.space, req.body, userId);
   res.status(200);
   res.send(book);
   res.end();
