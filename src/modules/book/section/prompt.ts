@@ -63,7 +63,7 @@ const _SUMMARY_PROMPT = {
     },
   ],
   temperature: 1,
-  max_tokens: 4096,
+  max_tokens: 8192,
   top_p: 1,
   frequency_penalty: 0,
   presence_penalty: 0,
