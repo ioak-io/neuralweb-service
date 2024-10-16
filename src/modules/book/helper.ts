@@ -117,32 +117,20 @@ export const createBook = async (
   // return { book: response, chapter: chapterResponse };
 };
 
-export const updateBook = async (space: string, data: any, userId?: string) => {
+export const updateBook = async (
+  space: string,
+  bookId: string,
+  data: any,
+  userId?: string
+) => {
   const model = getCollection(space, bookCollection, bookSchema);
   let response = null;
-  if (data._id) {
-    response = await model.findByIdAndUpdate(data._id, data, {
-      new: true,
-      upsert: true,
-    });
-  } else {
-    response = await model.create({
-      ...data,
-      reference: await nextval("bookId", undefined, space),
-    });
-  }
-
-  const bookResponse = await model.find({
-    reference: response.reference,
+  response = await model.findByIdAndUpdate(bookId, data, {
+    new: true,
+    upsert: true,
   });
-  let book = null;
-  if (bookResponse.length > 0) {
-    book = bookResponse[0];
-  }
 
-  return {
-    book,
-  };
+  return response;
 };
 
 export const updateChapterCount = async (
@@ -157,6 +145,18 @@ export const updateChapterCount = async (
     {
       upsert: true,
     }
+  );
+};
+
+export const getCoverImages = async (
+  space: string,
+  reference: string,
+  userId?: string
+) => {
+  const book = await getBookByReference(space, reference);
+  return await GoogleBookHelper.getAllBooksByBookNameAndAuthor(
+    book.title,
+    book.primaryAuthor
   );
 };
 

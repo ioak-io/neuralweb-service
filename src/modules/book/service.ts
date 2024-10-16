@@ -43,11 +43,19 @@ export const createBook = async (req: any, res: any) => {
 
 export const updateBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const book: any = await Helper.updateBook(req.params.space, req.body, userId);
+  const book: any = await Helper.updateBook(req.params.space, req.params.id, req.body, userId);
   res.status(200);
   res.send(book);
   res.end();
 };
+
+export const getCoverImages = async (req: any, res: any) => {
+  console.log("**")
+  const userId = req.user.user_id;
+  const data: any = await Helper.getCoverImages(req.params.space, req.params.reference, userId);
+  res.status(200).send(data);
+};
+
 
 export const getBook = async (req: any, res: any) => {
   const userId = req.user.user_id;

@@ -216,6 +216,47 @@ export const getBookMetadataByBookNameAndAuthor = async (
   }
 };
 
+export const getAllBooksByBookNameAndAuthor = async (
+  bookName: string,
+  authorName: string
+): Promise<any[]> => {
+  const query = `intitle:${bookName}+inauthor:${authorName}`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&key=${GOOGLE_BOOKS_API_KEY}`;
+
+  try {
+    const response = await axios.get(url);
+    const items = response.data.items || [];
+
+    if (items.length === 0) {
+      return [];
+    }
+
+    return items.map((bestMatch: any) => ({
+      title: bestMatch.volumeInfo.title,
+      // description: bestMatch.volumeInfo.description,
+      shortDescription: bestMatch.volumeInfo.shortDescription || "",
+      isbn:
+        bestMatch.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_13"
+        )?.identifier ||
+        bestMatch.volumeInfo.industryIdentifiers?.find(
+          (id: any) => id.type === "ISBN_10"
+        )?.identifier,
+      pageCount: bestMatch.volumeInfo.pageCount,
+      // categories: bestMatch.volumeInfo.categories || [],
+      // publisher: bestMatch.volumeInfo.publisher,
+      // publishedDate: bestMatch.volumeInfo.publishedDate,
+      thumbnail: bestMatch.volumeInfo.imageLinks?.thumbnail,
+      // authors: bestMatch.volumeInfo.authors,
+      // primaryAuthor: bestMatch.volumeInfo.authors?.[0],
+      // chapterCount: bestMatch.volumeInfo.tableOfContents?.length || 0,
+    }));
+  } catch (error) {
+    console.error("Error retrieving book metadata:", error);
+    return [];
+  }
+};
+
 export const getBookMetadata = async (
   isbn: string,
   bookName: string,

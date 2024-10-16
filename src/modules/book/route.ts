@@ -15,10 +15,11 @@ import {
   deleteBook,
   deleteBookByReference,
   validateBook,
+  getCoverImages,
 } from "./service";
 
 module.exports = function (router: any) {
-  router.put("/book/:space", authorizeApi, asyncHandler(updateBook));
+  router.put("/book/:space/:id", authorizeApi, asyncHandler(updateBook));
   router.post("/book/:space", authorizeApi, asyncHandler(createBook));
   router.post(
     "/book/:space/validate-book",
@@ -27,6 +28,7 @@ module.exports = function (router: any) {
   );
   // router.get("/book/:space", authorizeApi, asyncHandler(getBook));
   router.post("/book/:space/search", authorizeApi, asyncHandler(searchBook));
+  router.get("/book/:space/reference/:reference/cover-images", authorizeApi, asyncHandler(getCoverImages));
   router.get("/book/:space", authorizeApi, asyncHandler(getLibraries));
   router.get("/book/:space/id/:id", authorizeApi, asyncHandler(getBookById));
   router.get(
