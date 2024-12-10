@@ -20,6 +20,8 @@ const bookSchema = new Schema(
     publishedDate: { type: String },
     publisher: { type: String },
     thumbnail: { type: String },
+    readingProgress: { type: String },
+    startedReadingOn: {type: Date}
   },
   { timestamps: true, strict: false, strictQuery: false }
 );

@@ -1,37 +1,38 @@
-const axios = require("axios");
-import { cloneDeep, intersection } from "lodash";
-const ONEAUTH_API = process.env.ONEAUTH_API || "http://localhost:4010/api";
 import { bookCollection, bookSchema } from "./model";
 const { getCollection } = require("../../lib/dbutils");
 import { nextval, resetval } from "../sequence/service";
 import * as GoogleBookHelper from "./google_book_helper";
 import { isEmptyOrSpaces } from "../../lib/Utils";
 import * as Gptutils from "../../lib/gptutils";
-import * as ConceptHelper from "./concept/helper";
-import * as ShortformHelper from "./shortform/helper";
 import { getBookDetailPrompt } from "./prompt";
+import { ChatGpt } from "aihub";
 
-export const validateBook = async (
-  space: string,
-  book: any,
-  userId?: string
-) => {
-  const gptResponseText = await Gptutils.predict(
-    getBookDetailPrompt(book.title, book.primaryAuthor)
+const config = require("../../../env");
+
+export const validateBook = async (book: any, userId?: string) => {
+  const gptResponse = await ChatGpt.process(
+    config.CHATGPT_API_KEY,
+    "/v1/chat/completions",
+    getBookDetailPrompt(book.title, book.primaryAuthor),
+    "object"
   );
-  const gptResponse = JSON.parse(gptResponseText);
-
-  if (!gptResponse) {
-    return {};
-  }
-
-  const { fullBookName, title, errorDescription, ...rest } = gptResponse;
 
   return {
-    data: { title: title, fullTitle: fullBookName, ...rest },
+    data: gptResponse.isSuccessful
+      ? {
+          title: gptResponse.responseObject.title,
+          fullTitle: gptResponse.responseObject.fullBookName,
+          ...gptResponse.responseObject,
+        }
+      : null,
     outcome: {
-      status: errorDescription ? "failure" : "success",
-      errorMessage: errorDescription,
+      status:
+        gptResponse.isSuccessful && !gptResponse.responseObject.errorDescription
+          ? "success"
+          : "failure",
+      errorCode: gptResponse.errorCode,
+      errorDetails: gptResponse.errorDetails,
+      errorMessage: gptResponse.responseObject.errorDescription,
     },
   };
 };

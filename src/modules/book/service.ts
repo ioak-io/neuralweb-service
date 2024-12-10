@@ -1,23 +1,8 @@
-import bcrypt from "bcrypt";
-import { validateMandatoryFields } from "../../lib/validation";
-
-import { userSchema, userCollection } from "../user/model";
 import * as Helper from "./helper";
-import * as SectionHelper from "./section/helper";
-import * as SectiondetailHelper from "./sectiondetail/helper";
-import { getCollection } from "../../lib/dbutils";
-import { isEmptyOrSpaces } from "../../lib/Utils";
-import { finishGenerating, startGenerating } from "./log/helper";
-
-const selfRealm = 100;
 
 export const validateBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const response: any = await Helper.validateBook(
-    req.params.space,
-    req.body,
-    userId
-  );
+  const response: any = await Helper.validateBook(req.body, userId);
 
   res.status(200);
   res.send(response);
@@ -27,35 +12,43 @@ export const validateBook = async (req: any, res: any) => {
 export const createBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
   const book: any = await Helper.createBook(req.params.space, req.body, userId);
-  await startGenerating(req.params.space, book?.reference);
+  // await startGenerating(req.params.space, book?.reference);
 
   res.status(200).send(book);
 
-  await SectionHelper.generateSections(req.params.space, book?.reference);
+  // await SectionHelper.generateSections(req.params.space, book?.reference);
 
-  await finishGenerating(req.params.space, book?.reference);
+  // await finishGenerating(req.params.space, book?.reference);
 
-  await SectiondetailHelper.generateAllSectionSummaries(
-    req.params.space,
-    book?.reference
-  );
+  // await SectiondetailHelper.generateAllSectionSummaries(
+  //   req.params.space,
+  //   book?.reference
+  // );
 };
 
 export const updateBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
-  const book: any = await Helper.updateBook(req.params.space, req.params.id, req.body, userId);
+  const book: any = await Helper.updateBook(
+    req.params.space,
+    req.params.id,
+    req.body,
+    userId
+  );
   res.status(200);
   res.send(book);
   res.end();
 };
 
 export const getCoverImages = async (req: any, res: any) => {
-  console.log("**")
+  console.log("**");
   const userId = req.user.user_id;
-  const data: any = await Helper.getCoverImages(req.params.space, req.params.reference, userId);
+  const data: any = await Helper.getCoverImages(
+    req.params.space,
+    req.params.reference,
+    userId
+  );
   res.status(200).send(data);
 };
-
 
 export const getBook = async (req: any, res: any) => {
   const userId = req.user.user_id;
