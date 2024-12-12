@@ -5,11 +5,24 @@ import * as GoogleBookHelper from "./google_book_helper";
 import { isEmptyOrSpaces } from "../../lib/Utils";
 import * as Gptutils from "../../lib/gptutils";
 import { getBookDetailPrompt } from "./prompt";
-import { ChatGpt } from "aihub";
+import { ChatGpt, Gemini } from "aihub";
 
 const config = require("../../../env");
 
 export const validateBook = async (book: any, userId?: string) => {
+  // const gptResponse = await Gemini.process(
+  //   config.GEMINI_API_KEY,
+  //   "/v1beta/models/gemini-1.5-flash:generateContent",
+  //   {
+  //     contents: [
+  //       {
+  //         parts: [{ text: "You are a highly intelligent assistant that processes book details.\n\nWhen given a book name and author name, verify the book's existence.\n\nIf the book is valid, return only a JSON object with 'categories' (as an array), 'description' (a detailed description of 2 to 5 paragraphs), 'shortDescription' (a single paragraph summary), 'fullBookName', 'title', 'pageCount', 'authors' (as an array), 'primaryAuthor', 'publishedDate', 'isbn', 'authorInfo' (a paragraph of information about the author's major works and achievements), and 'chapterCount' (the total number of chapters in the book). If the book is part of a multi-volume series, combine the number of chapters from all volumes in 'chapterCount'. The 'authors' field should be an array ordered by the popularity of the authors. If the book cannot be found, return only a JSON object with 'errorDescription'. The response must be in JSON format only, without any additional text.\n\nPlease find the details for the book 'Anna karenina' authored by 'leo tolstoy'." }],
+  //       },
+  //     ],
+  //   },
+  //   "object"
+  // );
+
   const gptResponse = await ChatGpt.process(
     config.CHATGPT_API_KEY,
     "/v1/chat/completions",
