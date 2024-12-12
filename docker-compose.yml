@@ -17,6 +17,7 @@ services:
       DODO_URL: https://api.ioak.io:8120
       DODO_KEY: a53dc337-a203-4980-bfc8-12f19acddd26
       CHATGPT_MODEL_NAME: gpt-4o-mini
+      CHATGPT_API_KEY: key
       PORT: 8025
     ports:
       - 8025:8025
