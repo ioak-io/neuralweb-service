@@ -8,7 +8,7 @@ const _MODEL_NAME = process.env.CHATGPT_MODEL_NAME || "gpt-4o-mini";
 export const predict = async (payload: any) => {
   try {
     const response = await axios.post(
-      `${DODO_URL}/api/v1/chat/completions`,
+      `${DODO_URL}/api/chatgpt/v1/chat/completions`,
       payload,
       {
         headers: {
